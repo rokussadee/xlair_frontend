@@ -147,7 +147,7 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
 
   const parser = new DOMParser();
 
-  // const isAtStart = currentPosition >= -1;
+  const isAtStart = currentPosition >= -1;
   const isAtEnd = currentPosition <= -distanceToScroll + 1;
   // console.log(`
   //   currentPosition:\t${currentPosition}\n 
@@ -161,13 +161,16 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
       onMouseLeave={handleMouseLeave}
     >
       {/* Left Gradient - only visible when scrolled away from start */}
-      {/* <div
+      <div
         className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-card via-card/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
         style={{ opacity: shouldAnimate && !isAtStart ? 1 : 0 }}
-      /> */}
+      />
 <div
-        className="absolute inset-y-0 left-0 w-8 gradient-mask-r-1 z-10 pointer-events-none transition-opacity duration-300"
-      /> 
+      />
+      {/*<div 
+        className="absolute inset-y-0 left-0 w-8 gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent] z-10 pointer-events-none transition-opacity duration-300"
+        >
+        </div>*/}
       {/* Animated Text */}
       <CardTitle
         ref={textRef}
