@@ -3,7 +3,6 @@ import { CalendarEvent, WordPressAPIError } from '../types';
 import { useSetRecoilState } from 'recoil';
 import { setlistState } from '../store';
 import { parseCalendarAPIResponse } from "../utils";
-// import { fetchICSLinkContent } from '../services/CalendarService';
 import { addDays, format, isSameDay, isAfter, startOfDay, isWeekend } from 'date-fns';
 import {
   Card,
@@ -80,13 +79,14 @@ const CalendarComponent = () => {
     const hour = date.getUTCHours() + 1;
     console.log(`hour: ${hour}`)
     const minutes = date.getUTCMinutes();
-    const hasHalfHour = Math.floor(minutes / 30) == 1 ? true : false;
+    const quarters = Math.floor(minutes / 15);
+    console.log(`quarters for time ${date.toLocaleString()}: ${quarters}`)
 
     if (hour === 0) {
       return totalHours * 2;
     }
 
-    const position = ((hour - earliestHour) * 2) + (hasHalfHour ? 1 : 0) + 1; // Each row represents 30 minutes, +2 for header
+    const position = ((hour - earliestHour) * 4) + (quarters) + 1; // Each row represents 30 minutes, +2 for header
     return position;
   };
 
@@ -100,7 +100,7 @@ const CalendarComponent = () => {
           <LoadingBar color="white" stroke="1px" />
         </div>
       ) : (
-        <div className="grid grid-cols-1  gap-4 w-full">
+        <div className="grid grid-cols-1 gap-4 w-full">
           {/* Mobile (Schedule Layout) */}
           <div className="md:hidden overflow-y-auto scroll-snap-y">
             {weekDays
@@ -151,7 +151,7 @@ const CalendarComponent = () => {
                   <div
                     className={`relative grid h-full`}
                     style={{
-                      gridTemplateRows: `repeat(${totalHours * 2}, minmax(50px, 100px))`,
+                      gridTemplateRows: `repeat(${totalHours * 4}, minmax(25px, 50px))`,
                       backgroundImage: `linear-gradient(to bottom, transparent 99%, #e5e7eb 99%)`,
                       backgroundSize: `100% 100px`, // Adjust this to match the row height
                     }}
