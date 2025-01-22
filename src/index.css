@@ -76,4 +76,6 @@ body {
   background-color: #1c1c1c !important;
 }
   
-
+.description-block p, li {
+  margin-top: 6px;
+}

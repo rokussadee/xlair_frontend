@@ -17,6 +17,7 @@ import {
 } from "../components/ui/pagination"
 import { useEffect, useState } from "react";
 import { Tag, TagsMap, Post } from "../types";
+import { Link } from 'react-router-dom';
 
 export default function Shows() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -222,14 +223,15 @@ export default function Shows() {
           </div>
         ) : (
           posts.map((post: Post) => (
+            <Link to={`/shows/${post.id}`} key={post.id}>
             <Card
               key={post.id}
               className="mb-2 bg-foreground text-foreground border-zinc-700 flex-shrink min-w-64"
             >
               <CardHeader>
-                <CardTitle className="flex text-base justify-between content-center">
+                <CardTitle className="flex text-xxl justify-between content-center">
                   {new DOMParser().parseFromString(post.title.rendered, "text/html").documentElement.textContent}{" "}
-                  {(() => {
+                  {/* {(() => {
                     const currentTime = new Date();
                     const startTime = new Date(post.acf.start_time);
                     const endTime = new Date(post.acf.end_time);
@@ -249,12 +251,13 @@ export default function Shows() {
                       return <span className="text-xs font-regular ml-4 text-green-600 rounded-lg">Ongoing</span>;
                     }
                     return null;
-                  })()}
+                  })()} */}
                 </CardTitle>
-                <CardDescription>
-                  {`${new Date(post.acf.start_time).toLocaleDateString()} | ${new Date(post.acf.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                <CardDescription className="text-xs">
+                  {/* {`${new Date(post.acf.start_time).toLocaleDateString()} | ${new Date(post.acf.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     } - ${new Date(post.acf.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    }`}
+                    }`} */}
+                    Brussels Student Radio, located in the basement of the RITCS School of Arts. XLair is a platorm for anyone who likes to experiment with sound. It is an accessible mutidisciplinary hotbed and it can also be your playground.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -300,6 +303,7 @@ export default function Shows() {
                 </div>
               </CardFooter>
             </Card>
+            </Link>
           )))}
       </div>
     </main>

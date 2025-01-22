@@ -108,7 +108,7 @@ const CalendarComponent = () => {
               .map((day, i, filtered) => (
                 <div
                   key={day.toString()}
-                  className={`scroll-snap-start pt-4 border-b border-gray-900 ${filtered.length === i + 1 ? 'mb-14' : ''}`}>
+                  className={`scroll-snap-start pt-4 border-b ${filtered.length === i + 1 ? 'mb-14' : ''}`}>
                   <h2 className="text-lg flex flex-col mb-2">
                     <span className="font-semibold">{format(day, 'EEEE')}</span> {/* Day */}
                     <span className="text-gray-500 text-sm font-regular">{format(day, 'MMMM d')}</span> {/* Date */}
@@ -143,7 +143,7 @@ const CalendarComponent = () => {
           <div className="hidden md:block w-full">
             <div className="grid grid-cols-5 gap-2 relative w-full">
               {weekDays.map(day => (
-                <div key={day.toString()} className="col-span-1 pl-2 relative border-l border-gray-900"> {/* Modified: Grid for each day */}
+                <div key={day.toString()} className="col-span-1 pl-2 relative "> {/* Modified: Grid for each day */}
                   <h2 className="text-lg flex flex-col mb-2">
                     <span className="font-semibold ">{format(day, 'EEEE')}</span> {/* Day */}
                     <span className="text-gray-500 text-sm font-regular">{format(day, 'MMMM d')}</span> {/* Date */}
@@ -164,12 +164,12 @@ const CalendarComponent = () => {
                         const rowStart = calculateRowPosition(eventStart);
                         const rowEnd = calculateRowPosition(eventEnd);
                         console.log(rowEnd - rowStart);
-
+                        
                         // TODO: create component for text line-clamp
                         return (
                           <Card
                             key={event.id}
-                            className='overflow-hidden'
+                            className='overflow-hidden z-10 text-foreground opacity-80 backdrop-blur-xl border-zinc-700 '
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd
