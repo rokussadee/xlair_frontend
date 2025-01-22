@@ -47,7 +47,7 @@ const LiveRadioButton = () => {
     : currentEvent.title;
 
   return (
-    <div className="fixed bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg items-center h-10 border border-white flex p-1 left-4 right-4">
+    <div className="fixed sm:static bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg items-center h-10 border border-white flex p-1 left-4 right-4">
 
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
       // muted={isPlaying ? false : true} 
@@ -88,11 +88,11 @@ const LiveRadioButton = () => {
       <button className="pr-2" onClick={handlePlayPause}>
         {isPlaying ? (
           <div className="flex items-center gap-2 ">
-            <Img src={stopIcon} alt="Stop Button" width={40} height={30} />
+            <Img src={stopIcon} alt="Stop Button" width={30} height={30} />
           </div>
         ) : (
           <div className="flex items-center gap-2 ">
-            <Img src={playIcon} alt="Play Button" width={40} height={30} />
+            <Img src={playIcon} alt="Play Button" width={30} height={30} />
           </div>
         )}
       </button>

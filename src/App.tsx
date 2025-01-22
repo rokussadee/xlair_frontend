@@ -8,7 +8,6 @@ import HomePage from './pages/HomePage';
 import ShowDetailPage from './pages/ShowDetailPage';
 import Header from './components/Header';
 import { ThemeProvider } from './components/ui/theme-provider';
-import LiveRadioButton from './components/LiveRadioButton';
 
 function App() {
   return (
@@ -28,7 +27,6 @@ function App() {
               <Route path="/shows/:showId" element={<ShowDetailPage />} />
             </Routes>
           </div>
-            <LiveRadioButton />
       </div>
 
     </Router>

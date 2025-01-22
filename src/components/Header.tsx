@@ -13,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import ig_logo from '../assets/ig_logo.svg';
 import fb_logo from '../assets/fb_logo.svg';
 import mixcloud_logo from '../assets/mixcloud_logo.svg';
+import LiveRadioButton from './LiveRadioButton';
 
 const Header = () => {
   const location = useLocation();
@@ -28,7 +29,9 @@ const Header = () => {
   };
 
   return (
-    <nav className="mx-auto md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 items-center transition-all">
+    <nav className=" md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 items-center transition-all">
+      <LiveRadioButton className=""/>
+
       <div className="flex justify-center">
         <Tabs value={getActiveTab()} className="flex justify-center">
           <TabsList className="grid w-full grid-cols-3">

@@ -44,7 +44,7 @@ const AnnouncementComponent = () => {
     };
 
     fetchAnnouncement();
-    console.log(JSON.stringify(announcement));
+    console.log(announcement);
   }, [])
 
   const parser = new DOMParser();
@@ -58,8 +58,13 @@ const AnnouncementComponent = () => {
         <LoadingBar color="white" stroke="1px" />
       </div>
       ) : (announcement !== null) && (
-        <Alert className="p-2">
-          <AlertTitle className="text-semibold">
+        <Alert className={`p-2  h-36 border-zinc-700 `}>
+           {/* <img
+              className="rounded-lg opacity-70 w-full h-32 object-cover" // Adjust height (h-48) as needed
+              src={announcement.image}
+              alt="XLAIR Announcement Image"
+            /> */}
+          <AlertTitle className="text-bold text-2xl">
               {announcement?.title}
             </AlertTitle>
           {announcement.description ? (
