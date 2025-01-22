@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { Img } from 'react-image';
 import { format } from 'date-fns';
@@ -9,26 +9,36 @@ import stopIcon from '../assets/stop_button.svg';
 
 import { useRecoilValue } from 'recoil';
 import { currentEventSelector } from '../store';
-// import { motion } from "motion/react";
 
 const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
   console.log(`currentEvent: ${currentEvent}`);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const muteAudio = (mute: boolean) => {
+    if (audioRef.current) {
+      audioRef.current.muted = mute ? true : false; 
+    }
+  }
 
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (!isPlaying) {
-        audioRef.current.play();
+        muteAudio(false);
         setIsPlaying(true);
       } else {
-        audioRef.current.pause();
+        audioRef.current.muted = true;
+        muteAudio(true)
         setIsPlaying(false);
       }
     }
   };
+
+  useEffect(() => {
+    audioRef.current?.play();
+    muteAudio(true);
+  }, [])
 
   // Create display text for the current event
   const displayText = currentEvent.startTime
@@ -38,7 +48,9 @@ const LiveRadioButton = () => {
   return (
     <div className="fixed bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg items-center h-10 border border-white flex p-1 left-4 right-4">
 
-      <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b" muted={isPlaying ? false : true} />
+      <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
+        // muted={isPlaying ? false : true} 
+      />
 
       <Img
         src={logo}
@@ -63,20 +75,12 @@ const LiveRadioButton = () => {
 
 
         <div className="flex overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
-          {/* <div
-            className="absolute inset-y-0 left-0 w-8 h-6 bg-gradient-to-r from-card via-card/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
-            style={{ opacity: 1 }}
-          /> */}
           <p className="whitespace-nowrap text-xs animate-endless">
             &nbsp;&nbsp;{displayText}&nbsp;&nbsp;&#x266B;
           </p>
           <p className="whitespace-nowrap text-xs animate-endless">
             &nbsp;&nbsp;{displayText}&nbsp;&nbsp;&#x266B;
           </p>
-          {/*<div
-            className="absolute inset-y-0 right-0 w-8 h-6 bg-gradient-to-l from-card via-card/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
-            style={{ opacity: 1 }}
-          />*/}
         </div>
 
       </div>
