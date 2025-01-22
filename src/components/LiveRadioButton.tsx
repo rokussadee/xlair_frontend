@@ -13,6 +13,8 @@ import { currentEventSelector } from '../store';
 
 const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
+  console.log(`currentEvent: ${currentEvent}`);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 

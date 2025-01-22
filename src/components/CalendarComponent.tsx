@@ -39,17 +39,9 @@ const CalendarComponent = () => {
         console.log(`filteredEvents: ${filteredEvents}`)
 
         // Filter for today's events (for setlist)
-        //        const today = new Date();
-        //        console.log(`final statement\nevents: ${calendarEvents}\ntoday:  ${today}`)
-        //        const todaysEvents = calendarEvents.filter(event => {
-        //          const eventDate = new Date(event.startTime);
-        //          console.log(`comparing ${event.title} to ${today}\nisSameDay(eventDate, today): ${isSameDay(eventDate, today)}`);
-        //          return isSameDay(eventDate, today);
-        //        });
-        //        console.log(`todaysEvents: ${todaysEvents}`)
 
         setEvents(filteredEvents);
-        // setSetlist(todaysEvents);
+        setSetlist(filteredEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
       } finally {

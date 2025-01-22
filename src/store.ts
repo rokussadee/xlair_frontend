@@ -19,7 +19,7 @@ export const currentEventSelector = selector({
     const currentEvent = events.find(event => {
       const startTime = parseISO(event.startTime);
       const endTime = parseISO(event.endTime);
-      
+
       return isWithinInterval(now, { start: startTime, end: endTime });
     });
 
