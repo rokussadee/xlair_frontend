@@ -108,7 +108,7 @@ const CalendarComponent = () => {
               .map((day, i, filtered) => (
                 <div
                   key={day.toString()}
-                  className={`scroll-snap-start pt-4 border-b ${filtered.length === i + 1 ? 'mb-14' : ''}`}>
+                  className={`scroll-snap-start pt-4 ${filtered.length === i + 1 ? 'mb-14' : ''}`}>
                   <h2 className="text-lg flex flex-col mb-2">
                     <span className="font-semibold">{format(day, 'EEEE')}</span> {/* Day */}
                     <span className="text-gray-500 text-sm font-regular">{format(day, 'MMMM d')}</span> {/* Date */}
@@ -120,7 +120,7 @@ const CalendarComponent = () => {
                         <li key={event.id} className="mb-4">
                           <Card
                             key={event.id}
-                            className='overflow-hidden'
+                            className='overflow-hidden border-none'
                           >
                             <CardHeader className='p-3'>
                               <CardTitle className='text-base'>
@@ -169,7 +169,7 @@ const CalendarComponent = () => {
                         return (
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-10 text-foreground opacity-80 backdrop-blur-xl border-zinc-700 '
+                            className='overflow-hidden z-10 text-foreground border-none '
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd
