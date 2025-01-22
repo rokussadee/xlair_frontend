@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { Img } from 'react-image';
 import { format } from 'date-fns';
@@ -13,22 +13,32 @@ import { currentEventSelector } from '../store';
 const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
   console.log(`currentEvent: ${currentEvent}`);
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  audioRef.current?.play();
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const muteAudio = (mute: boolean) => {
+    if (audioRef.current) {
+      audioRef.current.muted = mute ? true : false; 
+    }
+  }
 
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (!isPlaying) {
-        audioRef.current.muted = false;
-         setIsPlaying(true);
+        muteAudio(false);
+        setIsPlaying(true);
       } else {
         audioRef.current.muted = true;
-         setIsPlaying(false);
+        muteAudio(true)
+        setIsPlaying(false);
       }
     }
   };
+
+  useEffect(() => {
+    audioRef.current?.play();
+    muteAudio(true);
+  }, [])
 
   // Create display text for the current event
   const displayText = currentEvent.startTime
