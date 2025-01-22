@@ -169,7 +169,7 @@ const CalendarComponent = () => {
                         return (
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-10 text-foreground border-none '
+                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  '
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd

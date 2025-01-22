@@ -14,8 +14,10 @@ import ig_logo from '../assets/ig_logo.svg';
 import fb_logo from '../assets/fb_logo.svg';
 import mixcloud_logo from '../assets/mixcloud_logo.svg';
 import LiveRadioButton from './LiveRadioButton';
+import { useDragControls, motion } from "motion/react"
 
 const Header = () => {
+  const controls = useDragControls()
   const location = useLocation();
   
   // Get the active tab based on the current path
@@ -29,8 +31,10 @@ const Header = () => {
   };
 
   return (
-    <nav className=" md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 items-center transition-all">
-      <LiveRadioButton className=""/>
+    <div className=" md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 items-center transition-all">
+      <motion.div className="z-10" drag dragControls={controls}>
+        <LiveRadioButton /> 
+      </motion.div>
 
       <div className="flex justify-center">
         <Tabs value={getActiveTab()} className="flex justify-center">
@@ -91,7 +95,7 @@ const Header = () => {
           </Tooltip>
         </TooltipProvider>
       </div>
-    </nav>
+    </div>
   );
 };
 
