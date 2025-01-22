@@ -8,17 +8,18 @@ import playIcon from '../assets/play_button.svg';
 import stopIcon from '../assets/stop_button.svg';
 
 import { useRecoilValue } from 'recoil';
-import { currentEventSelector } from '../store';
+import { currentEventSelector, nextEventSelector } from '../store';
 
 const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
-  console.log(`currentEvent: ${currentEvent}`);
+  const nextEvent = useRecoilValue(nextEventSelector);
+  console.log(`currentEvent: ${currentEvent.title}\nnextEvent: ${nextEvent.title}`);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const muteAudio = (mute: boolean) => {
     if (audioRef.current) {
-      audioRef.current.muted = mute ? true : false; 
+      audioRef.current.muted = mute ? true : false;
     }
   }
 
@@ -49,7 +50,7 @@ const LiveRadioButton = () => {
     <div className="fixed bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg items-center h-10 border border-white flex p-1 left-4 right-4">
 
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
-        // muted={isPlaying ? false : true} 
+      // muted={isPlaying ? false : true} 
       />
 
       <Img
