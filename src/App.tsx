@@ -16,7 +16,7 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <Router>
       <div>
-        <div className='flex justify-between'>
+        <div >
           <Header />
           </div>
 

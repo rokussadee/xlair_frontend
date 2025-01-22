@@ -31,7 +31,7 @@ const Header = () => {
   };
 
   return (
-    <div className=" md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 items-center transition-all">
+    <div className="md:mx-4 mt-6 mb-3 flex gap-6 flex-col lg:grid grid-cols-3 transition-all">
       <motion.div className="z-10" drag dragControls={controls}>
         <LiveRadioButton /> 
       </motion.div>

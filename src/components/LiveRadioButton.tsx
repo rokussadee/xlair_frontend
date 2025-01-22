@@ -16,6 +16,7 @@ const LiveRadioButton = () => {
   console.log(`currentEvent: ${currentEvent.title}\nnextEvent: ${nextEvent.title}`);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const muteAudio = (mute: boolean) => {
     if (audioRef.current) {
@@ -24,22 +25,24 @@ const LiveRadioButton = () => {
   }
 
   const handlePlayPause = () => {
+    if (!hasStarted) {
+      setHasStarted(true);
+      audioRef.current?.play();
+    }
     if (audioRef.current) {
       if (!isPlaying) {
         muteAudio(false);
         setIsPlaying(true);
       } else {
-        audioRef.current.muted = true;
         muteAudio(true)
         setIsPlaying(false);
       }
     }
   };
 
-  useEffect(() => {
-    audioRef.current?.play();
-    muteAudio(true);
-  }, [])
+  // useEffect(() => {
+    
+  // }, [])
 
   // Create display text for the current event
   const displayText = currentEvent.startTime
@@ -88,11 +91,11 @@ const LiveRadioButton = () => {
       <button className="pr-2" onClick={handlePlayPause}>
         {isPlaying ? (
           <div className="flex items-center gap-2 ">
-            <Img src={stopIcon} alt="Stop Button" width={30} height={30} />
+            <Img src={stopIcon} alt="Stop Button" width={25} height={25} />
           </div>
         ) : (
           <div className="flex items-center gap-2 ">
-            <Img src={playIcon} alt="Play Button" width={30} height={30} />
+            <Img src={playIcon} alt="Play Button" width={25} height={25} />
           </div>
         )}
       </button>

@@ -58,7 +58,7 @@ const AnnouncementComponent = () => {
         <LoadingBar color="white" stroke="1px" />
       </div>
       ) : (announcement !== null) && (
-        <Alert className={`p-2  h-36 border-zinc-700 `}>
+        <Alert className={`p-4  h-36 border-zinc-700 `}>
            {/* <img
               className="rounded-lg opacity-70 w-full h-32 object-cover" // Adjust height (h-48) as needed
               src={announcement.image}
