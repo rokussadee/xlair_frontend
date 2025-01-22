@@ -226,39 +226,12 @@ export default function Shows() {
             <Link to={`/shows/${post.id}`} key={post.id}>
             <Card
               key={post.id}
-              className="mb-2 bg-foreground text-foreground border-zinc-700 flex-shrink min-w-64"
+              className="mb-2 bg-foreground text-foreground hover:bg-neutral-800 border-zinc-700 flex-shrink min-w-64 "
             >
               <CardHeader>
                 <CardTitle className="flex text-xxl justify-between content-center">
                   {new DOMParser().parseFromString(post.title.rendered, "text/html").documentElement.textContent}{" "}
-                  {/* {(() => {
-                    const currentTime = new Date();
-                    const startTime = new Date(post.acf.start_time);
-                    const endTime = new Date(post.acf.end_time);
-
-                    const isSameDay = (date1: Date, date2: Date) =>
-                      date1.getFullYear() === date2.getFullYear() &&
-                      date1.getMonth() === date2.getMonth() &&
-                      date1.getDate() === date2.getDate();
-
-                    if (startTime > currentTime) {
-                      return <span className="text-xs font-regular ml-4 text-sky-600 rounded-lg">Upcoming</span>;
-                    } else if (
-                      isSameDay(currentTime, startTime) &&
-                      currentTime >= startTime &&
-                      currentTime <= endTime
-                    ) {
-                      return <span className="text-xs font-regular ml-4 text-green-600 rounded-lg">Ongoing</span>;
-                    }
-                    return null;
-                  })()} */}
                 </CardTitle>
-                <CardDescription className="text-xs">
-                  {/* {`${new Date(post.acf.start_time).toLocaleDateString()} | ${new Date(post.acf.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    } - ${new Date(post.acf.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    }`} */}
-                    Brussels Student Radio, located in the basement of the RITCS School of Arts. XLair is a platorm for anyone who likes to experiment with sound. It is an accessible mutidisciplinary hotbed and it can also be your playground.
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 {post.acf.mixcloud_link && post.acf.mixcloud_link.url ? (

@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { PortableText } from '@portabletext/react';
+import { Link } from 'react-router-dom';
 
 
 const ShowDetailPage = () => {
@@ -84,9 +85,9 @@ const ShowDetailPage = () => {
     <main className="min-h-screen py-8 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="bg-foreground text-foreground ">
-          <button className='underline mb-2'>
+          <Link to={`/shows`} className='underline mb-2'>
             Back
-          </button>
+          </Link>
           <div>
             <div className="text-4xl font-bold mb-4">
               {new DOMParser().parseFromString(show.title.rendered, "text/html").documentElement.textContent}
