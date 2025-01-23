@@ -46,7 +46,7 @@ const Header = (
   }, [width])
 
   return (
-    <div className="mx-4 mt-6 mb-6 gap-6 flex-col flex md:flex-row transition-all ">
+    <div className="mx-4 sm:mx-6 mt-6 mb-6 gap-6 flex-col flex md:flex-row transition-all ">
       <motion.div
         className="z-10 flex-shrink"
         draggable={!isMobile}
