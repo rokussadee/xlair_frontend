@@ -32,7 +32,6 @@ interface Props {
 const LiveRadioButton = ({ isMobile }: Props) => {
   const currentEvent = useRecoilValue(currentEventSelector);
   const nextEvent = useRecoilValue(nextEventSelector);
-  console.log(`currentEvent: ${currentEvent.title}\nnextEvent: ${nextEvent.title}`);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -74,102 +73,101 @@ const LiveRadioButton = ({ isMobile }: Props) => {
     ? `${currentEvent.title} (${format(new Date(currentEvent.startTime), 'p')} - ${format(new Date(currentEvent.endTime), 'p')})`
     : currentEvent.title;
 
-  const buttonSize = 40;
+  const buttonSize = 25;
 
   return (
-    <div className="fixed sm:static bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-10 md:h-24 border border-white flex md:flex-col p-1 md:pb-3 left-4 right-4 md:w-64">
+    <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3  bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 max-w-xs">
 
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
       // muted={isPlaying ? false : true} 
       />
-      <div
-        className='h-10'
+      <div  
+        className='h-12 '
       >
         <Img
+          draggable={false}
           src={logo}
           alt="Xlair radio logo"
-          width={120}
+          width={135}
           height={0}
-          className="absolute -top-[18px] -left-3 z-20" />
+          className="absolute -top-[16px] -left-3 z-20" />
         <Img
+          draggable={false}
           src={logo}
           alt="Xlair radio logo"
-          width={120}
+          width={135}
           height={0}
-          className="absolute -top-[18px] -left-3 blur z-20 opacity-70" />
-        {!isMobile && (
+          className="absolute -top-[16px] -left-3 blur z-20 opacity-70" />
           <div
-            className='flex justify-center'
+            className='ml-36 '
           >
-
-            <Tabs value={getActiveTab()} className="justify-center ml-28 w-30">
-              <TabsList className="grid w-full grid-cols-2 bg-gradient-to-br from-white-900 via-transparent to-white-400 backdrop-blur ">
-                <TabsTrigger value="Home" className="p-0 max-h-8 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border border-white-1">
+              <div className="grid w-full grid-cols-2  ">
+                <div value="Home" className="p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border-white-1">
                   <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
                     Home
                   </Link>
-                </TabsTrigger>
-                <TabsTrigger value="Shows" className="p-0 max-h-8 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border border-white-1" >
+                </div>
+                <div value="Shows" className="p-0 rounded-md border border-zinc-700 max-h-8 transition-all bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border-white-1" >
                   <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
                     Shows
                   </Link>
-                </TabsTrigger>
+                </div>
                 {/*<TabsTrigger value="About" className="p-0" >
               <Link to="/about" className="flex flex-grow justify-center px-3 py-1.5">
                 About
               </Link>
             </TabsTrigger>*/}
-              </TabsList>
-            </Tabs>
+              </div>
           </div>
 
-        )}
       </div>
 
       <div
-        className='flex ml-[97px] md:h-10 md:ml-2 w-56 md:items-end'
+        className='flex md:items-center justify-between'
       >
-        <div className='relative overflow-hidden flex items-center'>
+        <div className='relative w-72 overflow-hidden flex items-center'>
           <div className='align-middle z-50 overflow-visible p-0.5 mr-1'>
             <div className={clsx("rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px]", isPlaying ? "bg-red-600 outline-red-400" : "bg-transparent  outline-white")}>
             </div>
-            <div className={clsx("absolute top-1 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[1px]", isPlaying ? "outline-red-400 bg-red-600 animate-pulse " : "bg-transparent")}>
+            <div className={clsx("absolute top-2 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[1px]", isPlaying ? "outline-red-400 bg-red-600 animate-pulse " : "bg-transparent")}>
             </div>
           </div>
 
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <div className="flex overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
+                <div className="flex w-64 overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
                   <p className="whitespace-nowrap text-xs animate-endless">
-                    &nbsp;&nbsp;{displayText}&nbsp;&nbsp;&#x266B;
+                    &nbsp;&nbsp;{new DOMParser().parseFromString(displayText, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
                   </p>
                   <p className="whitespace-nowrap text-xs animate-endless">
-                    &nbsp;&nbsp;{displayText}&nbsp;&nbsp;&#x266B;
+                    &nbsp;&nbsp;{new DOMParser().parseFromString(displayText, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
                   </p>
                   <p className="whitespace-nowrap text-xs animate-endless">
-                    &nbsp;&nbsp;{displayText}&nbsp;&nbsp;&#x266B;
+                    &nbsp;&nbsp;{new DOMParser().parseFromString(displayText, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
                   </p>
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                UP NEXt: {nextEvent.title}
+                UP NEXt: {new DOMParser().parseFromString(nextEvent.title, "text/html").documentElement.textContent}{" "}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
         </div>
-        <button className="pr-2" onClick={handlePlayPause}>
-          {isPlaying ? (
-            <div className="flex items-center gap-2 ">
-              <Img src={stopIcon} alt="Stop Button" width={buttonSize} height={buttonSize} />
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 ">
-              <Img src={playIcon} alt="Play Button" width={buttonSize} height={buttonSize} />
-            </div>
-          )}
-        </button>
+        <div className='flex content-center '>
+          <button className="flex-end" onClick={handlePlayPause}>
+            {isPlaying ? (
+              <div className="flex items-center gap-2 ">
+                <Img src={stopIcon} alt="Stop Button" width={buttonSize} height={buttonSize} />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 ">
+                <Img src={playIcon} alt="Play Button" width={buttonSize} height={buttonSize} />
+              </div>
+            )}
+          </button>
+        </div>
       </div>
 
     </div >

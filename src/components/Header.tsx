@@ -14,6 +14,8 @@ import ig_logo from '../assets/ig_logo.svg';
 import fb_logo from '../assets/fb_logo.svg';
 import mixcloud_logo from '../assets/mixcloud_logo.svg';
 import LiveRadioButton from './LiveRadioButton';
+import AnnouncementComponent from '../components/AnnouncementComponent';
+
 import { useDragControls, motion, isDragActive } from "motion/react"
 import { useEffect, useLayoutEffect, useState } from "react";
 // import { useScreenSize } from "../utils";
@@ -65,9 +67,9 @@ const Header = (
   }, [width])
 
   return (
-    <div className="md:mx-4 mt-6 mb-3 md:h-0 flex gap-6 flex-col lg:grid grid-cols-3 transition-all">
+    <div className="mx-4 mt-6 mb-6 gap-6 flex-col flex md:flex-row transition-all ">
       <motion.div
-        className="z-10"
+        className="z-10 flex-shrink"
         draggable={!isMobile}
         drag={!isMobile}
         dragControls={!isMobile ? controls : undefined}
@@ -75,77 +77,54 @@ const Header = (
           top: 0,
           bottom: height - 100,
           left: 0,
-          right: width - 500
+          right: width - 340
         } : undefined}
         dragElastic={!isMobile ? 0.9 : undefined}
       >
         <LiveRadioButton isMobile={isMobile} />
       </motion.div>
 
-      {isMobile && (
-
-        <div className="flex justify-center">
-          <Tabs value={getActiveTab()} className="flex justify-center">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="Home" className="p-0 max-h-8">
-                <Link to="/" className="flex flex-grow justify-center px-3 py-1.5">
-                  Home
-                </Link>
-              </TabsTrigger>
-              <TabsTrigger value="Shows" className="p-0" >
-                <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5">
-                  Shows
-                </Link>
-              </TabsTrigger>
-              {/*<TabsTrigger value="About" className="p-0" >
-              <Link to="/about" className="flex flex-grow justify-center px-3 py-1.5">
-                About
-              </Link>
-            </TabsTrigger>*/}
-            </TabsList>
-          </Tabs>
-        </div>
-      )}
-      <div className="flex gap-4 justify-end items-center">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <a href="https://www.mixcloud.com/XLAIR/" target="blank">
-                <img width="50" src={mixcloud_logo} alt="mixcloud xlair" />
-              </a>
-            </TooltipTrigger>
-            <TooltipContent>
-              mixcloud.com/XLAIR
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <a href="https://www.instagram.com/xlairradio/" target="blank">
-                <img width="20" src={ig_logo} alt="instagram xlair" />
-              </a>
-            </TooltipTrigger>
-            <TooltipContent>
-              instagram.com/xlairradio
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <a href="https://www.facebook.com/xlairradio" target="blank">
-                <img width="20" src={fb_logo} alt="facebook xlair" />
-              </a>
-            </TooltipTrigger>
-            <TooltipContent>
-              facebook.com/xlairradio
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        {/* <div className="flex gap-4 items-center ml-5 mb-2 opacity-60">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <a href="https://www.mixcloud.com/XLAIR/" target="blank">
+                  <img width="50" src={mixcloud_logo} alt="mixcloud xlair" />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>
+                mixcloud.com/XLAIR
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <a href="https://www.instagram.com/xlairradio/" target="blank">
+                  <img width="20" src={ig_logo} alt="instagram xlair" />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>
+                instagram.com/xlairradio
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <a href="https://www.facebook.com/xlairradio" target="blank">
+                  <img width="20" src={fb_logo} alt="facebook xlair" />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>
+                facebook.com/xlairradio
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div> */}
+        <AnnouncementComponent />
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default Header;
+  export default Header;

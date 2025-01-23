@@ -50,7 +50,7 @@ const AnnouncementComponent = () => {
   const parser = new DOMParser();
 
   return (
-    <div className="mt-3 mb-3">
+    <div className="h-max grow">
       <div className="min-w-80">
       {loading ? (
         // Default values shown
@@ -58,7 +58,7 @@ const AnnouncementComponent = () => {
         <LoadingBar color="white" stroke="1px" />
       </div>
       ) : (announcement !== null) && (
-        <Alert className={`p-4  h-36 border-zinc-700 `}>
+        <Alert className={`p-4 border-zinc-700 `}>
            {/* <img
               className="rounded-lg opacity-70 w-full h-32 object-cover" // Adjust height (h-48) as needed
               src={announcement.image}

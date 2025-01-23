@@ -143,7 +143,7 @@ const CalendarComponent = () => {
           <div className="hidden md:block w-full">
             <div className="grid grid-cols-5 gap-2 relative w-full">
               {weekDays.map(day => (
-                <div key={day.toString()} className="col-span-1 pl-2 relative "> {/* Modified: Grid for each day */}
+                <div key={day.toString()} className="col-span-1 pl-2 relative"> {/* Modified: Grid for each day */}
                   <h2 className="text-lg flex flex-col mb-2">
                     <span className="font-semibold ">{format(day, 'EEEE')}</span> {/* Day */}
                     <span className="text-gray-500 text-sm font-regular">{format(day, 'MMMM d')}</span> {/* Date */}
@@ -151,9 +151,9 @@ const CalendarComponent = () => {
                   <div
                     className={`relative grid h-full`}
                     style={{
-                      gridTemplateRows: `repeat(${totalHours * 4}, minmax(25px, 50px))`,
-                      backgroundImage: `linear-gradient(to bottom, transparent 99%, #e5e7eb 99%)`,
-                      backgroundSize: `100% 100px`, // Adjust this to match the row height
+                      gridTemplateRows: `repeat(${totalHours * 4}, minmax(10px, 20px))`,
+                      backgroundImage: `linear-gradient(to bottom, transparent 99%,rgb(62, 62, 62) 99%)`,
+                      backgroundSize: `100% 80px`, // Adjust this to match the row height
                     }}
                   > {/* Modified: 24 rows for 24 hours */}
                     {events
