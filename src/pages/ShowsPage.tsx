@@ -137,10 +137,10 @@ export default function Shows() {
               key={tagId}
               onClick={() => handleTagSelect(Number(tagId))}
               className={`
-                text-xs rounded-lg p-3 pt-1 pb-1 borderborder-zinc-700 
+                text-xs hover:bg-zinc-700 rounded-lg p-3 pt-1 pb-1 border border-zinc-700 
                 ${selectedTags.includes(Number(tagId))
-                  ? 'bg-zinc-200 text-black'
-                  : 'bg-zinc-900 text-foreground'}
+                  ? ' bg-zinc-700 '
+                  : ' bg-background '}
               `}
             >
               {tagName}
@@ -225,7 +225,7 @@ export default function Shows() {
             <Link to={`/shows/${post.id}`} key={post.id}>
             <Card
               key={post.id}
-              className="mb-2 bg-foreground text-foreground hover:bg-neutral-800 border-zinc-700 flex-shrink min-w-64 "
+              className="mb-2 h-full bg-foreground text-foreground hover:bg-neutral-800 border-zinc-700 flex-shrink min-w-64 "
             >
               <CardHeader>
                 <CardTitle className="flex text-xxl justify-between content-center">
@@ -264,7 +264,7 @@ export default function Shows() {
                     post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs rounded-lg p-3 pt-1 pb-1 bg-zinc-900"
+                        className="text-xs rounded-lg p-3 pt-1 pb-1 border border-zinc-700"
                       >
                         {tagsMap[tag] || `Tag ${tag}`}
                       </span>
