@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
-import { Announcement, CalendarEvent, WordPressAPIError } from "./types";
+import { InvalidResponse, Announcement, CalendarEvent, WordPressAPIError, Show } from "./types";
+import { useEffect, useState } from "react";
 
 export const dateInDutch = (day: Date): string => {
   const ISODayOfWeek = Number(format(day, 'i'));
@@ -96,7 +97,7 @@ export const parseCalendarHTML = (content: string): CalendarEvent[] => {
   return events;
 }
 
-export const fetchPageContent = async (url: string): Promise<string | { code: string; message: string; data: { status: number } }> => {
+export const fetchPageContent = async (url: string): Promise<string | InvalidResponse> => {
   try {
     const response = await fetch(url);
 
@@ -178,25 +179,88 @@ export const parseAnnouncements = async (data: object | WordPressAPIError): Prom
     announcements: Array<{
       id: number,
       title: { rendered: string },
-      excerpt : { rendered: string },
+      excerpt: { rendered: string },
       acf: { active: boolean, start_time_activity: string, end_time_activity: string }
     }>
   }
 
   console.log(announcementsData);
 
-  if (!announcementsData|| !Array.isArray(announcementsData)) {
+  if (!announcementsData || !Array.isArray(announcementsData)) {
     console.error('Invalid announcements data. ')
     return [];
   }
 
   return announcementsData.map((object) => ({
-      id: object.id.toString(),
-      title: object.title.rendered,
-      description: object.excerpt.rendered || null,
-      state: object.acf.active,
-      startTime: object.acf.start_time_activity || null,
-      endTime: object.acf.end_time_activity || null
-    }
+    id: object.id.toString(),
+    title: object.title.rendered,
+    description: object.excerpt.rendered || null,
+    state: object.acf.active,
+    startTime: object.acf.start_time_activity || null,
+    endTime: object.acf.end_time_activity || null
+  }
   ));
 }
+
+export const parseShowsAPIData = async (data: object | WordPressAPIError): Promise<Show> => {
+  const showData = data as {
+    id: number,
+    slug: string,
+    title: { rendered: string },
+    content: { rendered: string },
+    acf: {
+      start_time: string,
+      end_time: string,
+      mixcloud_link: string | {
+        title: string,
+        url: string,
+        target: string
+      },
+      post_image: number | string,
+      pin_post: boolean
+    },
+    tags: Array<number>
+  }
+
+  const show: Show = {
+    id: showData.id,
+    title: showData.title.rendered,
+    description: showData.content.rendered,
+    startTime: showData.acf.start_time,
+    endTime: showData.acf.end_time,
+    postImage: typeof showData.acf.post_image === "string" ? null : Number(showData.acf.post_image),
+    mixcloudLink: typeof showData.acf.mixcloud_link === "string" ? null : showData.acf.mixcloud_link.url,
+    tags: showData.tags
+  }
+
+  return show
+}
+
+export const useScreenSize = () => {
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    alert('resizing')
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return screenSize;
+};
+
+

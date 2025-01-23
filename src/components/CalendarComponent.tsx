@@ -120,7 +120,7 @@ const CalendarComponent = () => {
                         <li key={event.id} className="mb-4">
                           <Card
                             key={event.id}
-                            className='overflow-hidden border-none'
+                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground'
                           >
                             <CardHeader className='p-3'>
                               <CardTitle className='text-base'>

@@ -9,13 +9,14 @@ import ShowDetailPage from './pages/ShowDetailPage';
 import Header from './components/Header';
 import { ThemeProvider } from './components/ui/theme-provider';
 
+
 function App() {
   return (
     <RecoilRoot>
 
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <Router>
-      <div>
+      <div className='overflow-x-hidden'>
         <div >
           <Header />
           </div>

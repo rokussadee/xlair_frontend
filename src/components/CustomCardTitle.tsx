@@ -162,7 +162,7 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
     >
       {/* Left Gradient - only visible when scrolled away from start */}
       <div
-        className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-card via-card/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
+        className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
         style={{ opacity: shouldAnimate && !isAtStart ? 1 : 0 }}
       />
 <div
@@ -185,7 +185,7 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
 
       {/* Right Gradient - only visible when not at the end */}
       <div
-        className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-card via-card/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
+        className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
         style={{ opacity: shouldAnimate && !isAtEnd ? 1 : 0 }}
       />
     </div>

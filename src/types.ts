@@ -45,6 +45,17 @@ export interface Post {
   tags: number[];
 }
 
+export interface Show {
+  id: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  postImage: number | null;
+  mixcloudLink: string | null;
+  tags: number[];
+}
+
 export interface CalendarEvent {
   id: string;
   title: string;
@@ -69,4 +80,10 @@ export interface Announcement {
   state: boolean,
   startTime: string | null,
   endTime: string | null
+}
+
+export interface InvalidResponse {
+  code: string,
+  message: string,
+  data: { status: number }
 }
