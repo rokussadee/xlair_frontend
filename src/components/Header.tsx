@@ -1,30 +1,9 @@
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "./ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip"
-import { Link, useLocation } from "react-router-dom";
-import ig_logo from '../assets/ig_logo.svg';
-import fb_logo from '../assets/fb_logo.svg';
-import mixcloud_logo from '../assets/mixcloud_logo.svg';
+// import { useLocation } from "react-router-dom";
 import LiveRadioButton from './LiveRadioButton';
 import AnnouncementComponent from '../components/AnnouncementComponent';
 
-import { useDragControls, motion, isDragActive } from "motion/react"
+import { useDragControls, motion } from "motion/react"
 import { useEffect, useLayoutEffect, useState } from "react";
-// import { useScreenSize } from "../utils";
-
-// import { MutableRefObject } from "react";
-
-// interface Props {
-//   containerRef: MutableRefObject<HTMLDivElement | null>;
-// }
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -46,17 +25,17 @@ const Header = (
   const [isMobile, setIsMobile] = useState(width <= 768);
 
   const controls = useDragControls()
-  const location = useLocation();
+  // const location = useLocation();
 
   // Get the active tab based on the current path
-  const getActiveTab = () => {
-    const path = location.pathname;
-    if (path === '/') return 'Home';
-    if (path === '/about') return 'About';
-    // Check if path starts with /shows (includes show detail pages)
-    if (path.startsWith('/shows')) return 'Shows';
-    return 'Home'; // Default to Home if no match
-  };
+  // const getActiveTab = () => {
+  //   const path = location.pathname;
+  //   if (path === '/') return 'Home';
+  //   if (path === '/about') return 'About';
+  //   // Check if path starts with /shows (includes show detail pages)
+  //   if (path.startsWith('/shows')) return 'Shows';
+  //   return 'Home'; // Default to Home if no match
+  // };
 
   useEffect(() => {
     if (width <= 768) {
@@ -81,10 +60,10 @@ const Header = (
         } : undefined}
         dragElastic={!isMobile ? 0.9 : undefined}
       >
-        <LiveRadioButton isMobile={isMobile} />
+        <LiveRadioButton />
       </motion.div>
 
-        {/* <div className="flex gap-4 items-center ml-5 mb-2 opacity-60">
+      {/* <div className="flex gap-4 items-center ml-5 mb-2 opacity-60">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -122,9 +101,9 @@ const Header = (
             </Tooltip>
           </TooltipProvider>
         </div> */}
-        <AnnouncementComponent />
-      </div>
-    );
-  };
+      <AnnouncementComponent />
+    </div>
+  );
+};
 
-  export default Header;
+export default Header;

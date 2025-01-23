@@ -14,22 +14,11 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip"
 
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "./ui/tabs";
-
-
 import { useRecoilValue } from 'recoil';
 import { currentEventSelector, nextEventSelector } from '../store';
 import { Link } from 'react-router-dom';
 
-interface Props {
-  isMobile: boolean
-}
-
-const LiveRadioButton = ({ isMobile }: Props) => {
+const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
   const nextEvent = useRecoilValue(nextEventSelector);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -57,16 +46,15 @@ const LiveRadioButton = ({ isMobile }: Props) => {
       }
     }
   };
+
   const getActiveTab = () => {
     const path = location.pathname;
     if (path === '/') return 'Home';
     if (path === '/about') return 'About';
     // Check if path starts with /shows (includes show detail pages)
-    if (path.startsWith('/shows')) return 'Shows';
+    if (path === '/shows') return 'Shows';
     return 'Home'; // Default to Home if no match
   };
-
-
 
   // Create display text for the current event
   const displayText = currentEvent.startTime
@@ -81,7 +69,7 @@ const LiveRadioButton = ({ isMobile }: Props) => {
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
       // muted={isPlaying ? false : true} 
       />
-      <div  
+      <div
         className='h-12 '
       >
         <Img
@@ -98,27 +86,28 @@ const LiveRadioButton = ({ isMobile }: Props) => {
           width={135}
           height={0}
           className="absolute -top-[16px] -left-3 blur z-20 opacity-70" />
-          <div
-            className='ml-36 '
-          >
-              <div className="grid w-full grid-cols-2  ">
-                <div value="Home" className="p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border-white-1">
-                  <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
-                    Home
-                  </Link>
-                </div>
-                <div value="Shows" className="p-0 rounded-md border border-zinc-700 max-h-8 transition-all bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur border-white-1" >
-                  <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
-                    Shows
-                  </Link>
-                </div>
-                {/*<TabsTrigger value="About" className="p-0" >
+        <div
+          className='ml-36 '
+        >
+          <div className="grid w-full grid-cols-2  ">
+            <div className={clsx("p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all border-white-1", getActiveTab() === "Home" ? "bg-gradient-to-br from-emerald-50 via-transparent to-neutral-30 backdrop-blur" : "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur ")}>
+              <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
+                Home
+              </Link>
+            </div>
+            <div
+              className={clsx("p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all border-white-1", getActiveTab() === "Shows" ? "bg-gradient-to-br from-emerald-50 via-transparent to-neutral-300 backdrop-blur" : "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur ")}>
+              <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
+                Shows
+              </Link>
+            </div>
+            {/*<TabsTrigger value="About" className="p-0" >
               <Link to="/about" className="flex flex-grow justify-center px-3 py-1.5">
                 About
               </Link>
             </TabsTrigger>*/}
-              </div>
           </div>
+        </div>
 
       </div>
 
