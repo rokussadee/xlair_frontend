@@ -80,6 +80,11 @@ body {
   margin-top: 6px;
 }
 
+.nav-button:hover {
+    filter: drop-shadow(0px 2px 2px #000000);
+    box-shadow: inset 0px 0.05em 2px rgba(255, 255, 255, 0.70);
+    background: var(--background);
+}
 
 .nav-button {
     filter: drop-shadow(1px 3px 2px #000000);
@@ -91,4 +96,11 @@ body {
     filter: drop-shadow(2px 2px 5px #5f5f5f);
     box-shadow: inset 2px 0.3em 2px rgba(11, 11, 11, 0.90);
     background: var(--background);
+}
+
+.nav-button-link--active {
+  transform: scale(0.95);
+}
+.nav-button-link {
+  transform: scale(1);
 }

@@ -120,7 +120,7 @@ const CalendarComponent = () => {
                         <li key={event.id} className="mb-4">
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground'
+                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur '
                           >
                             <CardHeader className='p-3'>
                               <CardTitle className='text-base'>
@@ -169,7 +169,7 @@ const CalendarComponent = () => {
                         return (
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  '
+                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur  '
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd

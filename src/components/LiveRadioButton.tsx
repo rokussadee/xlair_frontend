@@ -16,7 +16,7 @@ import {
 
 import { useRecoilValue } from 'recoil';
 import { currentEventSelector, nextEventSelector } from '../store';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const LiveRadioButton = () => {
   const currentEvent = useRecoilValue(currentEventSelector);
@@ -24,6 +24,7 @@ const LiveRadioButton = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+    const path = location.pathname;
 
   const muteAudio = (mute: boolean) => {
     if (audioRef.current) {
@@ -48,11 +49,7 @@ const LiveRadioButton = () => {
   };
 
   const getActiveTab = () => {
-    const path = location.pathname;
-    console.log();
     if (path === '/') return 'Home';
-    if (path === '/about') return 'About';
-    // Check if path starts with /shows (includes show detail pages)
     if (path === '/shows') return 'Shows';
     return 'Home'; // Default to Home if no match
   };
@@ -65,7 +62,7 @@ const LiveRadioButton = () => {
   const buttonSize = 25;
 
   return (
-    <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3  bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 max-w-xs">
+    <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3 bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 max-w-xs">
 
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
       // muted={isPlaying ? false : true} 
@@ -90,18 +87,29 @@ const LiveRadioButton = () => {
         <div
           className='ml-36 '
         >
-          <div className="grid w-full grid-cols-2  ">
-            <div className={clsx(" p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all", getActiveTab() === "Home" ?  "nav-button--active" : "nav-button")}>
-              <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs ">
-                Home
-              </Link>
-            </div>
-            <div
-              className={clsx(" p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all", getActiveTab() === "Shows" ? "nav-button--active" : "nav-button")}>
-              <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs ">
-                Shows
-              </Link>
-            </div>
+          <div className="grid w-full grid-cols-2">
+        <div className="">
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => clsx(
+              "flex flex-grow justify-center px-3 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all",
+              isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
+            )}
+          >
+            Home
+          </NavLink>
+        </div>
+        <div className="">
+          <NavLink 
+            to="/shows" 
+            className={({ isActive }) => clsx(
+              "flex flex-grow justify-center px-3 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all",
+              isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
+            )}
+          >
+            Shows
+          </NavLink>
+        </div>
             {/*<TabsTrigger value="About" className="p-0" >
               <Link to="/about" className="flex flex-grow justify-center px-3 py-1.5">
                 About
