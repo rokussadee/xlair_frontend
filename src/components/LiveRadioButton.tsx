@@ -49,6 +49,7 @@ const LiveRadioButton = () => {
 
   const getActiveTab = () => {
     const path = location.pathname;
+    console.log();
     if (path === '/') return 'Home';
     if (path === '/about') return 'About';
     // Check if path starts with /shows (includes show detail pages)
@@ -90,14 +91,14 @@ const LiveRadioButton = () => {
           className='ml-36 '
         >
           <div className="grid w-full grid-cols-2  ">
-            <div className={clsx("p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all border-white-1", getActiveTab() === "Home" ? "bg-gradient-to-br from-emerald-50 via-transparent to-neutral-30 backdrop-blur" : "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur ")}>
-              <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
+            <div className={clsx(" p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all", getActiveTab() === "Home" ?  "nav-button--active" : "nav-button")}>
+              <Link to="/" className="flex flex-grow justify-center px-3 py-1.5 text-xs ">
                 Home
               </Link>
             </div>
             <div
-              className={clsx("p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all border-white-1", getActiveTab() === "Shows" ? "bg-gradient-to-br from-emerald-50 via-transparent to-neutral-300 backdrop-blur" : "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur ")}>
-              <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs text-white">
+              className={clsx(" p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all", getActiveTab() === "Shows" ? "nav-button--active" : "nav-button")}>
+              <Link to="/shows" className="flex flex-grow justify-center px-3 py-1.5 text-xs ">
                 Shows
               </Link>
             </div>

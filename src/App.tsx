@@ -16,7 +16,7 @@ function App() {
 
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <Router>
-      <div className='overflow-x-hidden min-h-screen'>
+      <div className='min-h-screen'>
         <div >
           <Header />
           </div>
