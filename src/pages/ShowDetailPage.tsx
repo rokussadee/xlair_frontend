@@ -84,7 +84,7 @@ const ShowDetailPage = () => {
       <div className="max-w-3xl mx-auto">
         <div className="bg-foreground text-foreground ">
           <Link to={`/shows`} className='underline mb-2'>
-            Back
+            All shows
           </Link>
           <div>
             <div className="text-4xl font-bold mb-4">

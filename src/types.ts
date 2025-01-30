@@ -41,6 +41,7 @@ export interface Post {
     end_time: string;
     post_image?: number;
     mixcloud_link?: { url?: string };
+    pin_post: boolean;
   };
   tags: number[];
 }
