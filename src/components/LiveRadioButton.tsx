@@ -55,7 +55,7 @@ const LiveRadioButton = () => {
   const buttonSize = 25;
 
   return (
-    <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3 bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 max-w-xs">
+    <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3 bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 md:max-w-xs">
 
       <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
       // muted={isPlaying ? false : true} 
@@ -80,12 +80,12 @@ const LiveRadioButton = () => {
         <div
           className='ml-36 '
         >
-          <div className="grid w-full grid-cols-2">
+        <div className="flex justify-end">
         <div className="">
           <NavLink 
             to="/" 
             className={({ isActive }) => clsx(
-              "flex flex-grow justify-center px-3 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all",
+              "flex flex-grow justify-center px-4 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
               isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
             )}
           >
@@ -96,7 +96,7 @@ const LiveRadioButton = () => {
           <NavLink 
             to="/shows" 
             className={({ isActive }) => clsx(
-              "flex flex-grow justify-center px-3 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 mr-2 max-h-8 transition-all",
+              "flex flex-grow justify-center px-4 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
               isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
             )}
           >
@@ -116,8 +116,8 @@ const LiveRadioButton = () => {
       <div
         className='flex md:items-center justify-between'
       >
-        <div className='relative w-72 overflow-hidden flex items-center'>
-          <div className='align-middle z-50 overflow-visible p-0.5 mr-1'>
+        <div className='relative w-full md:w-72 overflow-hidden flex items-center'>
+          <div className='align-middle z-50 overflow-visible p-0.5 mr-2 md:mr-1'>
             <div className={clsx("rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px]", isPlaying ? "bg-red-600 outline-red-400" : "bg-transparent  outline-white")}>
             </div>
             <div className={clsx("absolute top-2 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[1px]", isPlaying ? "outline-red-400 bg-red-600 animate-pulse " : "bg-transparent")}>
@@ -127,7 +127,7 @@ const LiveRadioButton = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <div className="flex w-64 overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
+                <div className="flex w-[75vw] md:w-64 overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
                   <p className="whitespace-nowrap text-xs animate-endless">
                     &nbsp;&nbsp;{new DOMParser().parseFromString(displayText, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
                   </p>
