@@ -24,7 +24,6 @@ const LiveRadioButton = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-    const path = location.pathname;
 
   const muteAudio = (mute: boolean) => {
     if (audioRef.current) {
@@ -46,12 +45,6 @@ const LiveRadioButton = () => {
         setIsPlaying(false);
       }
     }
-  };
-
-  const getActiveTab = () => {
-    if (path === '/') return 'Home';
-    if (path === '/shows') return 'Shows';
-    return 'Home'; // Default to Home if no match
   };
 
   // Create display text for the current event
