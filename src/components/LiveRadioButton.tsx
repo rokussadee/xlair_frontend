@@ -127,7 +127,7 @@ const LiveRadioButton = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <div className="flex w-[330px] md:w-64 overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
+                <div className="flex w-[75vw] md:w-64 overflow-hidden gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]">
                   <p className="whitespace-nowrap text-xs animate-endless">
                     &nbsp;&nbsp;{new DOMParser().parseFromString(displayText, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
                   </p>
