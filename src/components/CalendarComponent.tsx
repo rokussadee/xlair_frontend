@@ -15,7 +15,8 @@ import CustomCardTitle from './CustomCardTitle';
 import clsx from 'clsx';
 import { currentEventSelector } from '../store';
 import {motion} from "motion/react";
-import RandomizedElements from './RandomizedElements';
+import { lazy, Suspense } from 'react';
+const RandomizedElements = lazy(() => import('./RandomizedElements'));
 
 const CalendarComponent = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -78,7 +79,7 @@ const CalendarComponent = () => {
     setTimeHead(earliestHour);
     setEarliestStartTime(earliestHour)
     setTotalHours(24 - earliestHour);
-  }, [events]);
+  }, [events, setTimeHead]);
 
   useEffect(() => {
     
@@ -92,7 +93,7 @@ const CalendarComponent = () => {
       console.log(`clearing interval`);
       clearInterval(interval);
     }
-  }, [earliestStartTime])
+  }, [earliestStartTime, setTimeHead])
 
   // Create an array for the current day and the next 6 days
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
@@ -181,7 +182,9 @@ const CalendarComponent = () => {
                               <div
                               className="absolute bottom-0 gradient-mask-r-[transparent,transparent_60%,rgba(1,1,1,1.0)_100%] left-0 w-full h-[80%]"
                               >
-                                <RandomizedElements count={20} />
+                                <Suspense fallback={<></>}>
+                                  <RandomizedElements count={20} />
+                                </Suspense>
                               </div>
                             )}
                           </Card>
@@ -277,7 +280,9 @@ const CalendarComponent = () => {
                               <div
                               className="relative bottom-0 left-0 max-w-full h-[80%] gradient-mask-b-[transparent,transparent_20%,rgba(1,1,1,1.0)_100%]"
                               >
-                                <RandomizedElements count={20} />
+                                <Suspense fallback={<></>}>
+                                  <RandomizedElements count={20} />
+                                </Suspense>
                               </div>
                             )}
 

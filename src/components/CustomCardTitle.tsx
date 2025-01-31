@@ -1,7 +1,6 @@
 import React, { useRef, useEffect} from "react";
 import { CardTitle } from "./ui/card";
 // import clsx from "clsx";
-import {motion} from "motion/react";
 
 interface CardTitleProps {
   title: string;

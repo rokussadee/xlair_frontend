@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Transition } from 'framer-motion';
 
 // Define a type for our randomized element configuration
 interface RandomElementProps {
@@ -11,7 +11,7 @@ interface RandomElementProps {
 
 const RandomizedElements: React.FC<RandomElementProps> = ({
   count = 10,
-  types = ['&#x266B;', '★', '✦', '♫'],
+  types = ['&#x266B;', '&#9833;', '&#9834;', '&#9835;', '&#9836;', '&#9837;', '&#9838;', '&#9839;'],
   containerClass = 'absolute inset-0 overflow-hidden pointer-events-none',
   elementClass = 'absolute'
 }) => {
@@ -46,7 +46,7 @@ const RandomizedElements: React.FC<RandomElementProps> = ({
         repeat: Infinity,
         repeatType: 'reverse',
         ease: 'easeInOut'
-      }
+      } as Transition
     }));
   }, [count, types]);
 
@@ -59,7 +59,7 @@ const RandomizedElements: React.FC<RandomElementProps> = ({
           initial={element.initial}
           animate={element.animate}
           transition={element.transition}
-          dangerouslySetInnerHTML={{ __html: element.type }}
+          dangerouslySetInnerHTML={{ __html: element.type as string }}
         />
       ))}
     </div>
