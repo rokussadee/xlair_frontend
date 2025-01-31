@@ -14,6 +14,8 @@ import LoadingBar from "../components/LoadingBar"
 import CustomCardTitle from './CustomCardTitle';
 import clsx from 'clsx';
 import { currentEventSelector } from '../store';
+import {motion} from "motion/react";
+import RandomizedElements from './RandomizedElements';
 
 const CalendarComponent = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -23,7 +25,7 @@ const CalendarComponent = () => {
   const today = startOfDay(now);
   const currentEvent = useRecoilValue(currentEventSelector);
   const [earliestStartTime, setEarliestStartTime] = useState<number>();
-  // const [playheadPercentage, setPlayheadPercentage] = useState<number>(0);
+  const [playheadPercentage, setPlayheadPercentage] = useState<number>(0);
   const [totalHours, setTotalHours] = useState<number>(24);
 
   useEffect(() => {
@@ -73,37 +75,37 @@ const CalendarComponent = () => {
     }, new Date(events[0]?.startTime || new Date())); // Start with the first event as the initial value
 
     const earliestHour = earliestTemp.getUTCHours() + 1;
-    // setTimeHead(earliestHour);
+    setTimeHead(earliestHour);
     setEarliestStartTime(earliestHour)
     setTotalHours(24 - earliestHour);
   }, [events]);
 
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   if (typeof earliestStartTime !== "number") return;
-  //   console.log(`initializing interval`);
-  //   const interval = setInterval(() => {
-  //     setTimeHead(earliestStartTime);
-  //   }, 60000);
+    if (typeof earliestStartTime !== "number") return;
+    console.log(`initializing interval`);
+    const interval = setInterval(() => {
+      setTimeHead(earliestStartTime);
+    }, 60000);
 
-  //   return () => {
-  //     console.log(`clearing interval`);
-  //     clearInterval(interval);
-  //   }
-  // }, [earliestStartTime])
+    return () => {
+      console.log(`clearing interval`);
+      clearInterval(interval);
+    }
+  }, [earliestStartTime])
 
   // Create an array for the current day and the next 6 days
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
   const weekDays = days.filter((day) => !isWeekend(day))
 
-  // function setTimeHead(startNumber: number){
-  //   const newTime = new Date();
-  //   const timeToGridPlacement = ((((newTime.getUTCHours() + 1) - startNumber)  + newTime.getUTCMinutes() / 60) / totalHours) * 100;
-  //   console.log(`timeToGridPlacement: 
-  //     \n((((${newTime.getUTCHours()} + 1) - ${startNumber}) / 60  + ${newTime.getUTCMinutes()} / 60) / ${totalHours}) * 100
-  //     \n${timeToGridPlacement}`)
-  //   setPlayheadPercentage(timeToGridPlacement);
-  // }
+  function setTimeHead(startNumber: number){
+    const newTime = new Date();
+    const timeToGridPlacement = ((((newTime.getUTCHours() + 1) - startNumber)  + newTime.getUTCMinutes() / 60) / totalHours) * 100;
+    console.log(`timeToGridPlacement: 
+      \n((((${newTime.getUTCHours()} + 1) - ${startNumber}) / 60  + ${newTime.getUTCMinutes()} / 60) / ${totalHours}) * 100
+      \n${timeToGridPlacement}`)
+    setPlayheadPercentage(timeToGridPlacement);
+  }
 
   // Utility function to handle row calculation
   const calculateRowPosition = (date: Date) => {
@@ -123,6 +125,8 @@ const CalendarComponent = () => {
   };
 
   const parser = new DOMParser();
+
+  const MotionCard = motion(Card)
   return (
     <div className="py-4">
 
@@ -154,7 +158,7 @@ const CalendarComponent = () => {
                         <li key={event.id} className="mb-4">
                           <Card
                             key={event.id}
-                            className={clsx("overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-red-800 via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur")}
+                            className={clsx("overflow-hidden relative z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-red-800 via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur")}
                           >
                             {
                                 isPlaying && (
@@ -173,6 +177,13 @@ const CalendarComponent = () => {
                                 {format(new Date(event.endTime), 'p')}
                               </CardDescription>
                             </CardHeader>
+                            {isPlaying  && (
+                              <div
+                              className="absolute bottom-0 gradient-mask-r-[transparent,transparent_60%,rgba(1,1,1,1.0)_100%] left-0 w-full h-[80%]"
+                              >
+                                <RandomizedElements count={20} />
+                              </div>
+                            )}
                           </Card>
                         </li>
                       )
@@ -193,18 +204,29 @@ const CalendarComponent = () => {
                     <span className="text-gray-500 text-sm font-regular">{format(day, 'MMMM d')}</span> {/* Date */}
                   </h2>
                   <div
-                    className={`relative grid h-full`}
+                    className={`relative grid`}
                     style={{
                       gridTemplateRows: `repeat(${totalHours * 4}, minmax(10px, 20px))`,
                       backgroundImage: `linear-gradient(to bottom, transparent 99%,rgb(62, 62, 62) 99%)`,
                       backgroundSize: `100% 80px`, // Adjust this to match the row height
                     }}
                   > 
-                  {/* {
+                  {
                     (playheadPercentage > 0 && isSameDay(now, day) ) && (
-                      <div className={`bg-red-600 w-full absolute h-[1px] top-[94.44444444444446%] z-50`}></div>
+                      <>
+                        <div className="bg-red-600 w-full absolute h-[1px] z-50"
+                          style={{
+                            top: `${playheadPercentage}%`
+                          }}
+                        ></div>
+                        <div className="bg-red-600 w-full absolute h-[15px] z-50 blur-xl overflow-visible"
+                          style={{
+                            top: `${playheadPercentage}%`
+                          }}
+                        ></div>
+                      </>
                     )
-                  } */}
+                  }
 
                   {/* Modified: 24 rows for 24 hours */}
                     {events
@@ -219,12 +241,15 @@ const CalendarComponent = () => {
                         
                         // TODO: create component for text line-clamp
                         return (
-                          <Card
+                          <MotionCard
                             key={event.id}
-                            className={clsx("overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-red-800 via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur" )}
+                            className={clsx("overflow-hidden cursor-help z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-[rgba(244,30,13,.4)] via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur" )}
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd
+                            }}
+                            whileHover={{
+                              scale: 1.01
                             }}
                           >
                               {
@@ -235,10 +260,10 @@ const CalendarComponent = () => {
                             </div>
                                 )
                               }
-                            <CardHeader className={clsx('px-4', 
-                            isSmall ? 'py-1' :
-                            'py-4')}
-                            >
+                            <CardHeader 
+                            className={clsx('px-4', 
+                              isSmall ? 'py-1' : 'py-4')}
+                              >
                               <CustomCardTitle
                                 active={isPlaying}
                                 title={event.title.toString()}
@@ -248,7 +273,15 @@ const CalendarComponent = () => {
                                 {format(new Date(event.endTime), 'p')}
                               </CardDescription>
                             </CardHeader>
-                          </Card>
+                            {isPlaying  && (
+                              <div
+                              className="relative bottom-0 left-0 max-w-full h-[80%] gradient-mask-b-[transparent,transparent_20%,rgba(1,1,1,1.0)_100%]"
+                              >
+                                <RandomizedElements count={20} />
+                              </div>
+                            )}
+
+                          </MotionCard>
                         );
                       })}
                   </div>

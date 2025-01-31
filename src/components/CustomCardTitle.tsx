@@ -1,198 +1,300 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect} from "react";
 import { CardTitle } from "./ui/card";
-import clsx from "clsx";
+// import clsx from "clsx";
+import {motion} from "motion/react";
 
 interface CardTitleProps {
   title: string;
   active: boolean
 }
 
-const PIXELS_PER_SECOND = 150;
+// const PIXELS_PER_SECOND = 150;
 
 const CustomCardTitle: React.FC<CardTitleProps> = ({ title, active }) => {
   const textRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<Animation | null>(null);
-  const [textWidth, setTextWidth] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [currentPosition, setCurrentPosition] = useState(0);
-  const animatingRef = useRef<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);     
+  const animationsRef = useRef<Animation[]>([]);   
+  // const animationRef = useRef<Animation | null>(null);
+  // const [textWidth, setTextWidth] = useState(0);
+  // const [containerWidth, setContainerWidth] = useState(0);
+  // const [currentPosition, setCurrentPosition] = useState(0);
+  // const animatingRef = useRef<boolean>(false);
 
   // Calculate the width of the text and container
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (textRef.current && containerRef.current) {
-        setTextWidth(textRef.current.scrollWidth);
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
+  // useEffect(() => {
+  //   const updateDimensions = () => {
+  //     if (textRef.current && containerRef.current) {
+  //       setTextWidth(textRef.current.scrollWidth);
+  //       setContainerWidth(containerRef.current.offsetWidth);
+  //     }
+  //   };
 
-    updateDimensions();
-    const resizeObserver = new ResizeObserver(updateDimensions);
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
+  //   updateDimensions();
+  //   const resizeObserver = new ResizeObserver(updateDimensions);
+  //   if (containerRef.current) {
+  //     resizeObserver.observe(containerRef.current);
+  //   }
 
-    return () => {
-      resizeObserver.disconnect();
-      if (animationRef.current) {
-        animationRef.current.cancel();
-        animatingRef.current = false;
-      }
-    }
-  }, [title]);
+  //   return () => {
+  //     resizeObserver.disconnect();
+  //     if (animationRef.current) {
+  //       animationRef.current.cancel();
+  //       animatingRef.current = false;
+  //     }
+  //   }
+  // }, [title]);
 
-  const shouldAnimate = textWidth >= containerWidth;
-  const distanceToScroll = textWidth - containerWidth;
+  // const shouldAnimate = textWidth >= containerWidth;
+  // const distanceToScroll = textWidth - containerWidth;
 
 
-  const handleAnimationFinish = useCallback(() => {
-    animatingRef.current = false;
-  }, []);
+  // const handleAnimationFinish = useCallback(() => {
+  //   animatingRef.current = false;
+  // }, []);
 
-  const handleAnimationFrame = (
-    animation: Animation,
-    animDuration: number,
-    isForward: boolean,
-    startPosition: number
-  ) => {
-    if (!animatingRef.current) return;
+  // const handleAnimationFrame = (
+  //   animation: Animation,
+  //   animDuration: number,
+  //   isForward: boolean,
+  //   startPosition: number
+  // ) => {
+  //   if (!animatingRef.current) return;
 
-    const currentTime = animation.currentTime as number;
-    if (currentTime !== null) {
-      const progress = Math.min(currentTime / animDuration, 1);
-      const newPosition = isForward
-        ? startPosition - (distanceToScroll + startPosition) * progress
-        : startPosition * (1 - progress);
+  //   const currentTime = animation.currentTime as number;
+  //   if (currentTime !== null) {
+  //     const progress = Math.min(currentTime / animDuration, 1);
+  //     const newPosition = isForward
+  //       ? startPosition - (distanceToScroll + startPosition) * progress
+  //       : startPosition * (1 - progress);
 
-      setCurrentPosition(Math.max(Math.min(newPosition, 0), -distanceToScroll));
-    }
+  //     setCurrentPosition(Math.max(Math.min(newPosition, 0), -distanceToScroll));
+  //   }
 
-    if (animation.playState !== 'finished' && animatingRef.current) {
-      requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, isForward, startPosition));
-    } else {
-      handleAnimationFinish();
-    }
-  };
+  //   if (animation.playState !== 'finished' && animatingRef.current) {
+  //     requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, isForward, startPosition));
+  //   } else {
+  //     handleAnimationFinish();
+  //   }
+  // };
 
-  const handleMouseEnter = () => {
-    if (!shouldAnimate || animatingRef.current || isNaN(currentPosition)) return;
+  // const handleMouseEnter = () => {
+  //   if (!shouldAnimate || animatingRef.current || isNaN(currentPosition)) return;
 
-    animationRef.current?.cancel();
+  //   animationRef.current?.cancel();
 
-    animatingRef.current = true;
-    console.log(`currentPosition:\t${currentPosition}`);
-    const startPosition = currentPosition;
-    const remainingDistance = distanceToScroll + startPosition;
-    const animDuration = Math.abs(remainingDistance) / PIXELS_PER_SECOND * 1000;
-    console.log(`remainingDistance: ${remainingDistance}`)
-    console.log(`animDuration: ${animDuration}`)
+  //   animatingRef.current = true;
+  //   console.log(`currentPosition:\t${currentPosition}`);
+  //   const startPosition = currentPosition;
+  //   const remainingDistance = distanceToScroll + startPosition;
+  //   const animDuration = Math.abs(remainingDistance) / PIXELS_PER_SECOND * 1000;
+  //   console.log(`remainingDistance: ${remainingDistance}`)
+  //   console.log(`animDuration: ${animDuration}`)
 
-    if (typeof animDuration === "number" && animDuration >= 0) {
+  //   if (typeof animDuration === "number" && animDuration >= 0) {
 
-      const animation = textRef.current!.animate(
-        [
-          { transform: `translateX(${startPosition}px)` },
-          { transform: `translateX(-${distanceToScroll}px)` }
-        ],
-        {
-          duration: animDuration,
-          easing: "ease-out",
-          fill: "forwards"
-        }
-      );
+  //     const animation = textRef.current!.animate(
+  //       [
+  //         { transform: `translateX(${startPosition}px)` },
+  //         { transform: `translateX(-${distanceToScroll}px)` }
+  //       ],
+  //       {
+  //         duration: animDuration,
+  //         easing: "ease-out",
+  //         fill: "forwards"
+  //       }
+  //     );
 
-      animationRef.current = animation;
-      requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, true, startPosition));
-    }
-  };
+  //     animationRef.current = animation;
+  //     requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, true, startPosition));
+  //   }
+  // };
 
-  const handleMouseLeave = () => {
-    if (isNaN(currentPosition)) return;
-    console.log(`shouldAnimate\n${shouldAnimate}\nanimatingRef.current\n${animatingRef.current}`)
+  // const handleMouseLeave = () => {
+  //   if (isNaN(currentPosition)) return;
+  //   console.log(`shouldAnimate\n${shouldAnimate}\nanimatingRef.current\n${animatingRef.current}`)
 
-    animationRef.current?.cancel();
+  //   animationRef.current?.cancel();
 
-    animatingRef.current = true;
-    console.log(`currentPosition:\t${currentPosition}`);
-    let startPosition = currentPosition;
-    console.log(`
-      typeof startPosition:\t${typeof startPosition}\n 
-      isNaN(startPosition):\t${isNaN(startPosition)}\n
-    `)
-    if (isNaN(startPosition)) {
-      startPosition = 0
-    }
-    const animDuration = Math.abs(startPosition) / PIXELS_PER_SECOND * 1000;
+  //   animatingRef.current = true;
+  //   console.log(`currentPosition:\t${currentPosition}`);
+  //   let startPosition = currentPosition;
+  //   console.log(`
+  //     typeof startPosition:\t${typeof startPosition}\n 
+  //     isNaN(startPosition):\t${isNaN(startPosition)}\n
+  //   `)
+  //   if (isNaN(startPosition)) {
+  //     startPosition = 0
+  //   }
+  //   const animDuration = Math.abs(startPosition) / PIXELS_PER_SECOND * 1000;
 
-    console.log(`startPosition: ${startPosition}`)
-    console.log(`animDuration: ${animDuration}`)
+  //   console.log(`startPosition: ${startPosition}`)
+  //   console.log(`animDuration: ${animDuration}`)
     
-    if (typeof animDuration === "number" && animDuration >= 0) {
+  //   if (typeof animDuration === "number" && animDuration >= 0) {
 
-      const animation = textRef.current!.animate(
-        [
-          { transform: `translateX(${startPosition}px)` },
-          { transform: "translateX(0)" }
-        ],
-        {
-          duration: animDuration,
-          easing: "ease-out",
-          fill: "forwards"
-        }
-      ); 
+  //     const animation = textRef.current!.animate(
+  //       [
+  //         { transform: `translateX(${startPosition}px)` },
+  //         { transform: "translateX(0)" }
+  //       ],
+  //       {
+  //         duration: animDuration,
+  //         easing: "ease-out",
+  //         fill: "forwards"
+  //       }
+  //     ); 
     
-      animationRef.current = animation;
-      requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, false, startPosition));
-    }
-  };
+  //     animationRef.current = animation;
+  //     requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, false, startPosition));
+  //   }
+  // };
 
   const parser = new DOMParser();
 
-  const isAtStart = currentPosition >= -1;
-  const isAtEnd = currentPosition <= -distanceToScroll + 1;
-  // console.log(`
-  //   currentPosition:\t${currentPosition}\n 
-  //   distanceToScroll:\t${distanceToScroll}\n`)
+  useEffect(() => {
+    if (containerRef.current) {
+      const elements = containerRef.current.getElementsByClassName('scrolling-text');
+      
+      // Initialize animations
+      animationsRef.current = Array.from(elements).map(element => {
+        const randomStart = Math.random() * 100;
+        return element.animate(
+          [
+            { transform: `translateX(${randomStart}%)` },
+            { transform: `translateX(${randomStart-100}})%)` }
+          ],
+          {
+            duration: 10000, // 10 seconds
+            iterations: Infinity,
+            easing: 'linear'
+          }
+        );
+      });
+    }
+    return () => {
+      animationsRef.current.forEach(animation => animation.cancel());
+    };
+  }, []);
+
+  const handleTextHover = () => {
+    animationsRef.current.forEach(animation => {
+      const startRate = animation.playbackRate;
+      const startTime = performance.now();
+      const duration = 1000;
+
+      function updateRate(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const newRate = startRate * (1 - eased);
+        
+        animation.updatePlaybackRate(newRate);
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateRate);
+        }
+      }
+
+      requestAnimationFrame(updateRate);
+    });
+  };
+
+  const handleTextLeave = () => {
+    animationsRef.current.forEach(animation => {
+      const startRate = animation.playbackRate;
+      const startTime = performance.now();
+      const duration = 1000;
+
+      function updateRate(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = Math.pow(progress, 3);
+        const newRate = startRate + (1 - startRate) * eased;
+        
+        animation.updatePlaybackRate(newRate);
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateRate);
+        }
+      }
+
+      requestAnimationFrame(updateRate);
+    });
+  };
+
+  interface ScrollProps {
+    title: string
+  }
+
+
+  // const ScrollingTitles: React.FC<ScrollProps> = ({title}) => {
+  //   return (
+  //     <CardTitle
+  //       ref={textRef}
+  //       className="flex font-medium"
+
+  //       style={{
+  //         // display: "inline-block",
+  //         // transform: shouldAnimate ? `translateX(${currentPosition}px)` : undefined
+  //         fontSize: `${Math.random() * 35 + 10}px`
+  //       }}
+  //     >
+  //       <div className="whitespace-nowrap scrolling-text">
+  //         &nbsp;&nbsp;{parser.parseFromString(title, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
+  //       </div>
+  //       <div className="whitespace-nowrap scrolling-text ">
+  //         &nbsp;&nbsp;{parser.parseFromString(title, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
+  //       </div>
+  //       <div className="whitespace-nowrap scrolling-text">
+  //         &nbsp;&nbsp;{parser.parseFromString(title, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
+  //       </div>
+  //       <div className="whitespace-nowrap scrolling-text ">
+  //         &nbsp;&nbsp;{parser.parseFromString(title, "text/html").documentElement.textContent}{" "}&nbsp;&nbsp;&#x266B;
+  //       </div>
+  //     </CardTitle>
+  //   )
+  // }
+  
+  const ScrollingTitles: React.FC<ScrollProps> = ({title}) => {
+    return (
+      <CardTitle
+        ref={textRef}
+        className="flex text-base uppercase font-medium"
+      >
+        <div className="inline-block">
+          {parser.parseFromString(title, "text/html").documentElement.textContent}{" "}
+        </div>
+      </CardTitle>
+    )
+  }
 
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden h-6"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className="relative overflow-hidden "
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleTextHover}
+      onMouseLeave={handleTextLeave}
     >
-      {/* Left Gradient - only visible when scrolled away from start */}
-      <div
-        className={clsx("absolute inset-y-0 left-0 w-8 bg-gradient-to-r z-10 pointer-events-none transition-opacity duration-300", active ? "from-[rgba(153,27,27,0.3)] via-red-800/30 to-transparent" : "from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent")}
-        style={{ opacity: shouldAnimate && !isAtStart ? 1 : 0 }}
-      >
-      </div>  
-      <div
-      className={clsx("absolute -left-1 w-2 h-8 -top-1 z-20 pointer-events-none transition-opacity duration-300 backdrop-blur-xl gradient-mask-r-[rgba(1,1,1,1.0),rgba(1,1,1,1.0)_50%,transparent]")}></div>
-      {/* <div 
-        className={clsx("absolute inset-y-0 left-0 w-full z-10 pointer-events-none transition-opacity duration-300", shouldAnimate && !isAtStart && !isAtEnd ? "gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]" : "gradient-mask-r-[white, white]")}
-        > */}
-      {/* Animated Text */}
+      {active ? (
+
+        <>
+          <ScrollingTitles title={title}/>
+                 
+        </>
+
+      ) : (
       <CardTitle
         ref={textRef}
-        className="whitespace-nowrap text-base font-medium"
-        style={{
-          display: "inline-block",
-          transform: shouldAnimate ? `translateX(${currentPosition}px)` : undefined
-        }}
-      >
-        {parser.parseFromString(title, "text/html").documentElement.textContent}{" "}
-      </CardTitle>
-
-      {/* </div> */}
-      {/* Right Gradient - only visible when not at the end */}
-      <div
-        className="absolute inset-y-0 -right-1 w-8 bg-gradient-to-l from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300 blur-sm"
-        style={{ opacity: shouldAnimate && !isAtEnd ? 1 : 0 }}
-      > 
+        className="flex text-base font-medium"
+     >
+        <div className=" ">
+          {parser.parseFromString(title, "text/html").documentElement.textContent}{" "}
         </div>
-    </div>
+      </CardTitle> 
+      )}
+      </div>
   );
 };
 

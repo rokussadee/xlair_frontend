@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import clsx from 'clsx';
 import { Img } from 'react-image';
 import { format } from 'date-fns';
+import {motion } from 'motion/react';
 
 import logo from '../assets/logo_white_full.png';
 import playIcon from '../assets/play_button.svg';
@@ -81,28 +82,40 @@ const LiveRadioButton = () => {
           className='ml-36 '
         >
         <div className="flex justify-end">
-        <div className="">
+        <motion.div className=""
+        whileHover={{ 
+              scale: 1.1,
+            }}
+            whileTap={{ scale: 0.95 }}
+
+        >
           <NavLink 
             to="/" 
             className={({ isActive }) => clsx(
-              "flex flex-grow justify-center px-4 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
+              "flex flex-grow justify-center px-4 py-1.5 text-xs p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
               isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
             )}
           >
             Home
           </NavLink>
-        </div>
-        <div className="">
+        </motion.div>
+        <motion.div className=""
+        whileHover={{ 
+              scale: 1.1,
+            }}
+            whileTap={{ scale: 0.95 }}
+
+        >
           <NavLink 
             to="/shows" 
             className={({ isActive }) => clsx(
-              "flex flex-grow justify-center px-4 py-1.5 text-xs rounded-md p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
+              "flex flex-grow justify-center px-4 py-1.5 text-xs p-0 rounded-md border border-zinc-700 ml-2 max-h-8 max-w-20 transition-all",
               isActive ? "nav-button--active nav-button-link--active" : "nav-button nav-button-link"
             )}
-          >
+                      >
             Shows
           </NavLink>
-        </div>
+        </motion.div>
             {/*<TabsTrigger value="About" className="p-0" >
               <Link to="/about" className="flex flex-grow justify-center px-3 py-1.5">
                 About
@@ -118,9 +131,9 @@ const LiveRadioButton = () => {
       >
         <div className='relative w-full md:w-72 overflow-hidden flex items-center'>
           <div className='align-middle z-50 overflow-visible p-0.5 mr-2 md:mr-1'>
-            <div className={clsx("rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px]", isPlaying ? "bg-red-600 outline-red-400" : "bg-transparent  outline-white")}>
+            <div className={clsx("rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px]", isPlaying ? "bg-red-600 outline-red-200" : "bg-transparent  outline-white")}>
             </div>
-            <div className={clsx("absolute top-2 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[1px]", isPlaying ? "outline-red-400 bg-red-600 animate-pulse " : "bg-transparent")}>
+            <div className={clsx("absolute top-1 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[1px]", isPlaying ? "outline-red-600 bg-red-600 animate-pulse " : "bg-transparent")}>
             </div>
           </div>
 

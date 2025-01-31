@@ -28,13 +28,13 @@ export default {
           "65%": { transform: 'translateX(0)' }
         },
         endless: {
-          "0%": { transform: 'translateX(0)' },
-          "100%": { transform: 'translateX(-100%)' },
+          "0%": { transform: 'translateX(var(--scroll-start, 0))' },
+          "100%": { transform: 'translateX(var(--scroll-end, -100%))' }
         }
       },
       animation: {
         textswipe: 'textswipe 10s ease-in-out infinite',
-        endless: 'endless 10s linear infinite'
+        endless: 'endless var(--duration, 10s) linear infinite var(--play-state, running)'
       },
       borderRadius: {
         lg: 'var(--radius)',

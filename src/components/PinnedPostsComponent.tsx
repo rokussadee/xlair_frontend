@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { Tag, TagsMap, Post } from "../types";
 import { Link } from 'react-router-dom';
 import pin from '../assets/red_pin.png';
+import {motion} from 'motion/react';
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -103,6 +104,7 @@ const fetchPinnedPosts = async () => {
     fetchPinnedPosts();
   }, []); 
 
+
  return (
    <div className='md:grid md:grid-cols-2 md:gap-4 lg:flex lg:flex-row flex-wrap sm:mx-2 mt-4 lg:mt-8'>
         {/* <div className='grow p-4 overflow-hidden rounded-md bg-[#1c1c1c] border border-zinc-700 text-foreground  bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur '>
@@ -117,14 +119,19 @@ const fetchPinnedPosts = async () => {
             No posts found.
           </div>
         ) : (
-          posts.map((post: Post) => (
+          posts.map((post: Post) => {
+            const randomRotation = !isMobile ? Math.floor(Math.random() * 40) - 20 : 0;
+            return (
             <Link className='grow' to={`/shows/${post.id}`} key={post.id}>
-            <div
+            <motion.div
               key={post.id}
-              className="relative mb-4 lg:mb-6 border flex rounded-md p-4 border-zinc-700 h-full bg-foreground text-foreground hover:bg-neutral-800 border-zinc-700 hover:z-30 transition-all duration-200"
-              style={{
-                transform: !isMobile ? `rotate(${Math.floor(Math.random() * 40) - 20}deg)` : "rotate(0deg)"
+              className="relative mb-4 lg:mb-6 border flex rounded-md p-4 h-full bg-foreground text-foreground hover:bg-neutral-800 border-zinc-700 hover:z-30 hover:rotate-90 transition-all duration-200"
+              initial={{rotate: randomRotation}}
+              whileHover={{ 
+                scale: 1.1,
+                rotate: randomRotation > 0 ? randomRotation - 10 : randomRotation + 10,
               }}
+              whileTap={{ scale: 0.95 }}
             >
               <div className='relative flex w-full flex-row justify-between gap-2 h-min'>
                 {post.acf.mixcloud_link && post.acf.mixcloud_link.url ? (
@@ -188,9 +195,10 @@ const fetchPinnedPosts = async () => {
                       transform: `rotate(${Math.floor(Math.random() * 45) - 35}deg)`
                     }}/>
 
-            </div>
+            </motion.div>
             </Link>
-          )))}
+          )
+          }))}
    </div>
  )
 }

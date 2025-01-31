@@ -37,7 +37,7 @@ const Header = (
   return (
     <div className="mx-4 sm:mx-6 mt-6 mb-2 gap-3 md:gap-6 flex-col flex md:flex-row transition-all ">
       <motion.div
-        className="z-10 flex-shrink"
+        className="z-[100] flex-shrink"
         draggable={!isMobile}
         drag={!isMobile}
         dragControls={!isMobile ? controls : undefined}
