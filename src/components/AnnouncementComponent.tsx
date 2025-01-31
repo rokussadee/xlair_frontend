@@ -50,7 +50,7 @@ const AnnouncementComponent = () => {
   const parser = new DOMParser();
 
   return (
-    <div className="sm:h-24 grow">
+    <div className="lg:h-24 grow">
       <div className="min-w-80 h-full">
       {loading ? (
         // Default values shown
@@ -58,17 +58,19 @@ const AnnouncementComponent = () => {
         <LoadingBar color="white" stroke="1px" />
       </div>
       ) : (announcement !== null) && (
-        <Alert className={`p-4 border-zinc-700 h-full`}>
+        <Alert className={`py-2 md:p-4 border-zinc-700 lg:h-full`}>
            {/* <img
               className="rounded-lg opacity-70 w-full h-32 object-cover" // Adjust height (h-48) as needed
               src={announcement.image}
               alt="XLAIR Announcement Image"
             /> */}
-          <AlertTitle className="text-bold text-2xl">
+          <AlertTitle className="text-bold text-lg md:text-2xl">
               {announcement?.title}
             </AlertTitle>
           {announcement.description ? (
-            <AlertDescription>
+            <AlertDescription
+              className="text-sm"
+            >
                 {parser.
                   parseFromString(
                     announcement.description,

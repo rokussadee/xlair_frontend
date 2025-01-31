@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { CardTitle } from "./ui/card";
+import clsx from "clsx";
 
 interface CardTitleProps {
   title: string;
+  active: boolean
 }
 
 const PIXELS_PER_SECOND = 150;
 
-const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
+const CustomCardTitle: React.FC<CardTitleProps> = ({ title, active }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<Animation | null>(null);
@@ -125,7 +127,7 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
 
     console.log(`startPosition: ${startPosition}`)
     console.log(`animDuration: ${animDuration}`)
-
+    
     if (typeof animDuration === "number" && animDuration >= 0) {
 
       const animation = textRef.current!.animate(
@@ -138,8 +140,8 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
           easing: "ease-out",
           fill: "forwards"
         }
-      );
-
+      ); 
+    
       animationRef.current = animation;
       requestAnimationFrame(() => handleAnimationFrame(animation, animDuration, false, startPosition));
     }
@@ -162,19 +164,19 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
     >
       {/* Left Gradient - only visible when scrolled away from start */}
       <div
-        className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
+        className={clsx("absolute inset-y-0 left-0 w-8 bg-gradient-to-r z-10 pointer-events-none transition-opacity duration-300", active ? "from-[rgba(153,27,27,0.3)] via-red-800/30 to-transparent" : "from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent")}
         style={{ opacity: shouldAnimate && !isAtStart ? 1 : 0 }}
-      />
-<div
-      />
-      {/*<div 
-        className="absolute inset-y-0 left-0 w-8 gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent] z-10 pointer-events-none transition-opacity duration-300"
-        >
-        </div>*/}
+      >
+      </div>  
+      <div
+      className={clsx("absolute -left-1 w-2 h-8 -top-1 z-20 pointer-events-none transition-opacity duration-300 backdrop-blur-xl gradient-mask-r-[rgba(1,1,1,1.0),rgba(1,1,1,1.0)_50%,transparent]")}></div>
+      {/* <div 
+        className={clsx("absolute inset-y-0 left-0 w-full z-10 pointer-events-none transition-opacity duration-300", shouldAnimate && !isAtStart && !isAtEnd ? "gradient-mask-r-[transparent,rgba(1,1,1,1.0)_10%,rgba(1,1,1,1.0)_90%,transparent]" : "gradient-mask-r-[white, white]")}
+        > */}
       {/* Animated Text */}
       <CardTitle
         ref={textRef}
-        className="whitespace-nowrap text-base"
+        className="whitespace-nowrap text-base font-medium"
         style={{
           display: "inline-block",
           transform: shouldAnimate ? `translateX(${currentPosition}px)` : undefined
@@ -183,11 +185,13 @@ const CustomCardTitle: React.FC<CardTitleProps> = ({ title }) => {
         {parser.parseFromString(title, "text/html").documentElement.textContent}{" "}
       </CardTitle>
 
+      {/* </div> */}
       {/* Right Gradient - only visible when not at the end */}
       <div
-        className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300"
+        className="absolute inset-y-0 -right-1 w-8 bg-gradient-to-l from-[#1c1c1c] via-[#1c1c1c]/50 to-transparent z-10 pointer-events-none transition-opacity duration-300 blur-sm"
         style={{ opacity: shouldAnimate && !isAtEnd ? 1 : 0 }}
-      />
+      > 
+        </div>
     </div>
   );
 };

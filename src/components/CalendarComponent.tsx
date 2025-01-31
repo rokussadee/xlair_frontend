@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { CalendarEvent, WordPressAPIError } from '../types';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { setlistState } from '../store';
 import { parseCalendarAPIResponse } from "../utils";
-import { addDays, format, isSameDay, isAfter, startOfDay, isWeekend } from 'date-fns';
+import { addDays, format, isSameDay, isAfter, startOfDay, isWeekend} from 'date-fns';
 import {
   Card,
   CardDescription,
@@ -12,13 +12,19 @@ import {
 } from "./ui/card";
 import LoadingBar from "../components/LoadingBar"
 import CustomCardTitle from './CustomCardTitle';
-
+import clsx from 'clsx';
+import { currentEventSelector } from '../store';
 
 const CalendarComponent = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const setSetlist = useSetRecoilState(setlistState);
   const [loading, setLoading] = useState<boolean>(true);
-  const today = startOfDay(new Date());
+  const now = new Date();
+  const today = startOfDay(now);
+  const currentEvent = useRecoilValue(currentEventSelector);
+  const [earliestStartTime, setEarliestStartTime] = useState<number>();
+  // const [playheadPercentage, setPlayheadPercentage] = useState<number>(0);
+  const [totalHours, setTotalHours] = useState<number>(24);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -47,35 +53,61 @@ const CalendarComponent = () => {
         setLoading(false);
       }
     };
-
+  
     fetchEvents();
   }, []);
+
+  useEffect(() => {
+    if (events.length === 0) return;
+      // Calculate the earliest event start time for the week
+    const earliestTemp: Date = events.reduce((earliest, event) => {
+      const eventStart = new Date(event.startTime);
+
+      // Normalize time by setting the date to a common anchor day (e.g., Jan 1, 1970)
+      const normalizedEventStart = new Date(1970, 0, 1, eventStart.getUTCHours() + 1, eventStart.getUTCMinutes());
+      const normalizedEarliest = new Date(1970, 0, 1, earliest.getUTCHours() + 1, earliest.getUTCMinutes());
+      console.log(`normalizedEventStart: ${normalizedEventStart}\nnormalizedEarliest: ${normalizedEarliest}`)
+
+
+      return normalizedEventStart < normalizedEarliest ? eventStart : earliest;
+    }, new Date(events[0]?.startTime || new Date())); // Start with the first event as the initial value
+
+    const earliestHour = earliestTemp.getUTCHours() + 1;
+    // setTimeHead(earliestHour);
+    setEarliestStartTime(earliestHour)
+    setTotalHours(24 - earliestHour);
+  }, [events]);
+
+  // useEffect(() => {
+    
+  //   if (typeof earliestStartTime !== "number") return;
+  //   console.log(`initializing interval`);
+  //   const interval = setInterval(() => {
+  //     setTimeHead(earliestStartTime);
+  //   }, 60000);
+
+  //   return () => {
+  //     console.log(`clearing interval`);
+  //     clearInterval(interval);
+  //   }
+  // }, [earliestStartTime])
 
   // Create an array for the current day and the next 6 days
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
   const weekDays = days.filter((day) => !isWeekend(day))
 
-  // Calculate the earliest event start time for the week
-  const earliestStartTime = events.reduce((earliest, event) => {
-    const eventStart = new Date(event.startTime);
-
-    // Normalize time by setting the date to a common anchor day (e.g., Jan 1, 1970)
-    const normalizedEventStart = new Date(1970, 0, 1, eventStart.getUTCHours() + 1, eventStart.getUTCMinutes());
-    const normalizedEarliest = new Date(1970, 0, 1, earliest.getUTCHours() + 1, earliest.getUTCMinutes());
-    console.log(`normalizedEventStart: ${normalizedEventStart}\nnormalizedEarliest: ${normalizedEarliest}`)
-
-
-    return normalizedEventStart < normalizedEarliest ? eventStart : earliest;
-  }, new Date(events[0]?.startTime || new Date())); // Start with the first event as the initial value
-
-  const earliestHour = earliestStartTime.getUTCHours() + 1; // Get the hour of the earliest event
-  const totalHours = 24 - earliestHour;
-
-  console.log(`ealiestHour: ${earliestHour}`)
-
+  // function setTimeHead(startNumber: number){
+  //   const newTime = new Date();
+  //   const timeToGridPlacement = ((((newTime.getUTCHours() + 1) - startNumber)  + newTime.getUTCMinutes() / 60) / totalHours) * 100;
+  //   console.log(`timeToGridPlacement: 
+  //     \n((((${newTime.getUTCHours()} + 1) - ${startNumber}) / 60  + ${newTime.getUTCMinutes()} / 60) / ${totalHours}) * 100
+  //     \n${timeToGridPlacement}`)
+  //   setPlayheadPercentage(timeToGridPlacement);
+  // }
 
   // Utility function to handle row calculation
   const calculateRowPosition = (date: Date) => {
+    if (typeof earliestStartTime !== "number") return;  // ✅ Prevent running when undefined
     const hour = date.getUTCHours() + 1;
     console.log(`hour: ${hour}`)
     const minutes = date.getUTCMinutes();
@@ -86,7 +118,7 @@ const CalendarComponent = () => {
       return totalHours * 2;
     }
 
-    const position = ((hour - earliestHour) * 4) + (quarters) + 1; // Each row represents 30 minutes, +2 for header
+    const position = ((hour - earliestStartTime) * 4) + (quarters) + 1; // Each row represents 30 minutes, +2 for header
     return position;
   };
 
@@ -116,12 +148,22 @@ const CalendarComponent = () => {
                   <ul>
                     {events
                       .filter(event => isSameDay(new Date(event.startTime), day))
-                      .map(event => (
+                      .map(event => {
+                        const isPlaying = currentEvent.id === event.id ? true : false; 
+                        return (
                         <li key={event.id} className="mb-4">
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur '
+                            className={clsx("overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-red-800 via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur")}
                           >
+                            {
+                                isPlaying && (
+                            <div className='absolute bottom-2 right-2'> 
+                              <div className="rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px] bg-red-600 outline-zinc-700" ></div>
+                              <div className="absolute top-0 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[2px] outline-red-400 bg-red-600 animate-pulse "></div>
+                            </div>
+                                )
+                              }
                             <CardHeader className='p-3'>
                               <CardTitle className='text-base'>
                                 {parser.parseFromString(event.title, "text/html").documentElement.textContent}{" "}
@@ -133,7 +175,9 @@ const CalendarComponent = () => {
                             </CardHeader>
                           </Card>
                         </li>
-                      ))}
+                      )
+                      })
+                      }
                   </ul>
                 </div>
               ))}
@@ -155,7 +199,14 @@ const CalendarComponent = () => {
                       backgroundImage: `linear-gradient(to bottom, transparent 99%,rgb(62, 62, 62) 99%)`,
                       backgroundSize: `100% 80px`, // Adjust this to match the row height
                     }}
-                  > {/* Modified: 24 rows for 24 hours */}
+                  > 
+                  {/* {
+                    (playheadPercentage > 0 && isSameDay(now, day) ) && (
+                      <div className={`bg-red-600 w-full absolute h-[1px] top-[94.44444444444446%] z-50`}></div>
+                    )
+                  } */}
+
+                  {/* Modified: 24 rows for 24 hours */}
                     {events
                       .filter(event => isSameDay(new Date(event.startTime), day))
                       .map(event => {
@@ -163,20 +214,33 @@ const CalendarComponent = () => {
                         const eventEnd = new Date(event.endTime);
                         const rowStart = calculateRowPosition(eventStart);
                         const rowEnd = calculateRowPosition(eventEnd);
-                        console.log(rowEnd - rowStart);
+                        const isSmall: boolean = rowEnd && rowStart && rowEnd-rowStart < 3 ? true : false;
+                        const isPlaying = currentEvent.id === event.id ? true : false;
                         
                         // TODO: create component for text line-clamp
                         return (
                           <Card
                             key={event.id}
-                            className='overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground  bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur  '
+                            className={clsx("overflow-hidden z-5 bg-[#1c1c1c] border border-zinc-700 text-foreground ", isPlaying ? "bg-gradient-to-br from-red-800 via-transparent to-neutral-700 backdrop-blur" :  "bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur" )}
                             style={{
                               gridRowStart: rowStart,
                               gridRowEnd: rowEnd
                             }}
                           >
-                            <CardHeader className='p-4'>
+                              {
+                                isPlaying && (
+                            <div className='absolute bottom-2 right-2'> 
+                              <div className="rounded-full h-[7px] w-[7px] transition-all duration-200 outline outline-[0.05px] bg-red-600 outline-zinc-700" ></div>
+                              <div className="absolute top-0 rounded-full h-[7px] w-[7px] opacity-40 transition-all duration-200 outline outline-[0.1px] blur-[2px] outline-red-400 bg-red-600 animate-pulse "></div>
+                            </div>
+                                )
+                              }
+                            <CardHeader className={clsx('px-4', 
+                            isSmall ? 'py-1' :
+                            'py-4')}
+                            >
                               <CustomCardTitle
+                                active={isPlaying}
                                 title={event.title.toString()}
                               />
                               <CardDescription className='text-xs'>

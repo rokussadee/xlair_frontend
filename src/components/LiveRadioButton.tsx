@@ -57,7 +57,7 @@ const LiveRadioButton = () => {
   return (
     <div className="cursor-grabbing hover:cursor-grab static pb-2 p-3 bottom-5 bg-gradient-to-br from-neutral-900 via-transparent to-neutral-700 backdrop-blur rounded-lg h-24 border border-zinc-700 md:max-w-xs">
 
-      <audio ref={audioRef} src="https://kioskradiobxl.out.airtime.pro/kioskradiobxl_b"
+      <audio ref={audioRef} src="https://streaming.ritcs.be/stream1"
       // muted={isPlaying ? false : true} 
       />
       <div

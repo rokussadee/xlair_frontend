@@ -265,6 +265,7 @@ export default function Shows() {
                       <span
                         key={tag}
                         className="text-xs rounded-lg p-3 pt-1 pb-1 border border-zinc-700"
+
                       >
                         {tagsMap[tag] || `Tag ${tag}`}
                       </span>
