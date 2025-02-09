@@ -103,7 +103,7 @@ export default function Shows() {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const tagsResponse = await fetch("https://www.xlair.be/wp-json/wp/v2/tags");
+        const tagsResponse = await fetch("https://www.xlair.be/wp-json/wp/v2/tags?per_page=100");
         const tagsData: Tag[] = await tagsResponse.json();
 
         const tagMapping: Record<number, string> = {};

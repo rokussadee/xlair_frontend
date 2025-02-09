@@ -33,7 +33,7 @@ const CalendarComponent = () => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const url = "https://www.xlair.be/wp-json/tribe/events/v1/events?_fields=events"
+        const url = "https://www.xlair.be/wp-json/tribe/events/v1/events?_fields=events&per_page=100"
 
         const eventsAPIResponse = await fetch(url);
         const eventData: object | WordPressAPIError = await eventsAPIResponse.json();
