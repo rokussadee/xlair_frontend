@@ -57,6 +57,12 @@ export interface Show {
   tags: number[];
 }
 
+export enum EventCategory {
+  Default = "Default",
+  IRL = "IRL",
+  Filler = "Filler"
+}
+
 export interface CalendarEvent {
   id: string;
   title: string;
@@ -64,27 +70,29 @@ export interface CalendarEvent {
   startTime: string;
   endTime: string;
   imageLink: string | null;
+  category: EventCategory;
+  location: string | null;
 }
 
 export interface WordPressAPIError {
-  code: string,
-  message: string,
+  code: string;
+  message: string;
   data: {
-    status: string
-  }
+    status: string;
+  };
 }
 
 export interface Announcement {
-  id: string,
-  title: string,
-  description: string | null,
-  state: boolean,
-  startTime: string | null,
-  endTime: string | null
+  id: string;
+  title: string;
+  description: string | null;
+  state: boolean;
+  startTime: string | null;
+  endTime: string | null;
 }
 
 export interface InvalidResponse {
-  code: string,
-  message: string,
-  data: { status: number }
+  code: string;
+  message: string;
+  data: { status: number };
 }
