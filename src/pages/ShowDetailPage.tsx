@@ -88,7 +88,7 @@ const ShowDetailPage = () => {
           </Link>
           <div>
             <div className="text-4xl font-bold mb-4">
-              {new DOMParser().parseFromString(show.title, "text/html").documentElement.textContent}();
+              {new DOMParser().parseFromString(show.title, "text/html").documentElement.textContent}
             </div>
           </div>
           <div className="space-y-6">
