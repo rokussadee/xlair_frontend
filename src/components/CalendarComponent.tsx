@@ -97,7 +97,12 @@ const CalendarComponent = () => {
 
   // Create an array for the current day and the next 6 days
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
-  const weekDays = days.filter((day) => !isWeekend(day))
+  //const weekDays = days.filter((day) => !isWeekend(day))
+  const weekDays = days.filter(day => {
+  const dayOfWeek = day.getDay()
+  return dayOfWeek !== 5 && !isWeekend(day)
+})
+
 
   function setTimeHead(startNumber: number){
     const newTime = new Date();
@@ -199,7 +204,7 @@ const CalendarComponent = () => {
 
           {/* Desktop (Timetable Layout) */}
           <div className="hidden md:block w-full">
-            <div className="grid grid-cols-5 gap-2 relative w-full">
+            <div className="grid grid-cols-4 gap-2 relative w-full">
               {weekDays.map(day => (
                 <div key={day.toString()} className="col-span-1 pl-2 relative"> {/* Modified: Grid for each day */}
                   <h2 className="text-lg flex flex-col mb-2">

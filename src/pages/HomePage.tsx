@@ -11,6 +11,7 @@ const HomePage: React.FC = () => {
       <div className='col-span-3'>
           <CalendarComponent />
       </div>
+
         </main>
   );
 };
