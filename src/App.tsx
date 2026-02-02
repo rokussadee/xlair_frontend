@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import ShowDetailPage from './pages/ShowDetailPage';
 import Header from './components/Header';
 import { ThemeProvider } from './components/ui/theme-provider';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import FooterAdress from './components/FooterAdress';
 
 function App() {
@@ -29,10 +29,10 @@ function App() {
               <Route path="/shows/:showId" element={<ShowDetailPage />} />
             </Routes>
           </div>
-          <div>
+          {/* <div>
             <Footer/>
-          </div>
-          <div>
+          </div> */}
+          <div className=''>
             <FooterAdress/>
           </div>
       </div>

@@ -115,8 +115,8 @@ const fetchPinnedPosts = async () => {
             Loading posts...
           </div>
         ) : posts.length === 0 ? (
-          <div className="col-span-full p-4 flex justify-center items-center">
-            No posts found.
+          <div>
+            {/* No posts found. */}
           </div>
         ) : (
           posts.map((post: Post) => {

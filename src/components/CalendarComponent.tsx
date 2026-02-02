@@ -25,9 +25,9 @@ const CalendarComponent = () => {
   const now = new Date();
   const today = startOfDay(now);
   const currentEvent = useRecoilValue(currentEventSelector);
-  const [earliestStartTime, setEarliestStartTime] = useState<number>();
+  const [earliestStartTime, setEarliestStartTime] = useState<number>(17);
   const [playheadPercentage, setPlayheadPercentage] = useState<number>(0);
-  const [totalHours, setTotalHours] = useState<number>(24);
+  const [totalHours, setTotalHours] = useState<number>(7);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -179,8 +179,8 @@ const CalendarComponent = () => {
                                 {parser.parseFromString(event.title, "text/html").documentElement.textContent}{" "}
                               </CardTitle>
                               <CardDescription className='text-xs'>
-                                {format(new Date(event.startTime), 'p')} -{' '}
-                                {format(new Date(event.endTime), 'p')}
+                                {format(new Date(event.startTime), 'HH:mm')} -{' '}
+                                {format(new Date(event.endTime), 'HH:mm')}
                               </CardDescription>
                             </CardHeader>
                             {isPlaying  && (
@@ -277,8 +277,8 @@ const CalendarComponent = () => {
                                 title={event.title.toString()}
                               />
                               <CardDescription className='text-xs'>
-                                {format(new Date(event.startTime), 'p')} -{' '}
-                                {format(new Date(event.endTime), 'p')}
+                                {format(new Date(event.startTime), 'HH:mm')} -{' '}
+                                {format(new Date(event.endTime), 'HH:mm')}
                               </CardDescription>
                             </CardHeader>
                             {isPlaying  && (

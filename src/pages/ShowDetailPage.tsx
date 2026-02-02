@@ -92,23 +92,36 @@ const ShowDetailPage = () => {
             </div>
           </div>
           <div className="space-y-6">
-            {imageUrl && (
+            {/* {imageUrl && (
               <img
                 src={imageUrl}
                 alt={show.title}
-                className="w-full h-96 object-cover rounded-lg opacity-70"
+                className="w-full h-96 object-cover rounded-lg opacity-20 blur-[100px]"
               />
-            )}
+            )} */}
             
             {show.mixcloudLink && typeof show.mixcloudLink === "string" && (
-              <iframe
-                className="w-full h-96 rounded-lg"
-                src={`https://player-widget.mixcloud.com/widget/iframe/?feed=${encodeURIComponent(
-                  show.mixcloudLink
-                )}`}
-                title={show.title}
-                frameBorder="0"
-              ></iframe>
+              <div className="relative w-full h-96">
+                {/* Glow layer */}
+                {imageUrl && (
+                  <div
+                    className="absolute inset-0 translate-y-8 z-0 bg-cover bg-center opacity-30 blur-[80px] scale-125 pointer-events-none"
+                    style={{ backgroundImage: `url(${imageUrl})` }}
+                  />
+                )}
+
+                {/* Actual iframe container */}
+                <div className="relative z-10 w-full h-full rounded-lg overflow-hidden">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://player-widget.mixcloud.com/widget/iframe/?feed=${encodeURIComponent(
+                      show.mixcloudLink
+                    )}`}
+                    title={show.title}
+                    frameBorder="0"
+                  />
+                </div>
+              </div>
             )}
 
             <div 

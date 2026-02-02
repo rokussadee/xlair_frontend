@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <div className="fixed bottom-8 left-8 z-50">
-        <div className="flex-col flex md:flex-row gap-3 transition-all items-center">
+        <div className="flex lg:flex-row gap-3 transition-all items-center">
             <div id="mixcloud-icon-link">
                 <a href="https://www.mixcloud.com/XLAIR/" target="_blank">
                     <svg height="16" id="Group_92" data-name="Group 92" viewBox="0 0 77.298 21.822">
